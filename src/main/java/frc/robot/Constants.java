@@ -2,7 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+
 package frc.robot;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -23,8 +25,16 @@ public final class Constants {
     public static final int RIGHT_LEADER_ID = 3;
     public static final int RIGHT_FOLLOWER_ID = 4;
 
+
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
+
+
+
+
+    public static final double maxSpeed = 5;
+    public static final double maxAngularSpeed = Math.PI;
   }
+
 
   public static final class RollerConstants {
     public static final int ROLLER_MOTOR_ID = 5;
@@ -33,8 +43,10 @@ public final class Constants {
     public static final double ROLLER_EJECT_VALUE = 0.44;
   }
 
+
   public static final class OperatorConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;
   }
+ 
 }
