@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoCommand;
+import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -38,6 +39,7 @@ public class RobotContainer {
       OperatorConstants.DRIVER_CONTROLLER_PORT);
 
       public DriveSubsystem driveSubsystem;
+      public CANDriveSubsystem driveSubsystemCAN;
 
        // The autonomous chooser
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -78,7 +80,6 @@ public class RobotContainer {
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
-    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystem));
 
     try {
       driveSubsystem = new DriveSubsystem();
@@ -86,8 +87,8 @@ public class RobotContainer {
 
       e.printStackTrace();
     }
-
-    configureBindings();
+    
+    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
   }
 
   /**
