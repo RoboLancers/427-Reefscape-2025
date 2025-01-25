@@ -28,7 +28,7 @@ import frc.robot.commands.AutoCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RollerCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystemSubsystem.CANRollerSubsystem;
+import frc.robot.subsystems.Intake.CANRollerSubsystem;
 
 
 //import frc.robot.subsystems.DriveSubsystem;
@@ -123,7 +123,7 @@ public class RobotContainer {
  
       // before
       operatorController.a()
-          .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+          .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, AlgaeSubsystem));
  
       // Set the default command for the drive subsystem to an instance of the
       // DriveCommand with the values provided by the joystick axes on the driver
@@ -143,7 +143,7 @@ public class RobotContainer {
       rollerSubsystem.setDefaultCommand(new RollerCommand(
           () -> operatorController.getRightTriggerAxis(),
           () -> operatorController.getLeftTriggerAxis(),
-          rollerSubsystem));
+          AlgaeSubsystem));
 
 
  
