@@ -17,7 +17,7 @@ public class RollerCommand extends Command {
   private final IntakeSubsystem rollerSubsystem;
 
   public RollerCommand(
-      DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem rollerSubsystem) {
+      DoubleSupplier forward, DoubleSupplier reverse, ClimbSubsystem rollerSubsystem) {
     this.forward = forward;
     this.reverse = reverse;
     this.rollerSubsystem = rollerSubsystem;
