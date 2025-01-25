@@ -4,20 +4,21 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.PathPlannerLogging;
 import java.io.IOException;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.AutoCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.RollerCommand;
-import frc.robot.subsystems.CANDriveSubsystem;
-import frc.robot.subsystems.CANRollerSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -30,19 +31,59 @@ import frc.robot.subsystems.DriveSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+
+  private final Field2d field;
+  
   private final CommandXboxController driverController = new CommandXboxController(
       OperatorConstants.DRIVER_CONTROLLER_PORT);
 
       public DriveSubsystem driveSubsystem;
+
+       // The autonomous chooser
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Set up command bindings
+
+    field = new Field2d();
+    SmartDashboard.putData("Field", field);
+
+
+    // Logging callback for current robot pose
+      PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
+          // Do whatever you want with the pose here
+          field.setRobotPose(pose);
+      });
+
+
+      // Logging callback for target robot pose
+      PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+          // Do whatever you want with the pose here
+          field.getObject("target pose").setPose(pose);
+      });
+
+
+      // Logging callback for the active path, this is sent as a list of poses
+      PathPlannerLogging.setLogActivePathCallback((poses) -> {
+          // Do whatever you want with the poses here
+          field.getObject("path").setPoses(poses);
+      });
+   
+    // Set up command bindings
+    configureBindings();
+
+    // Set the options to show up in the Dashboard for selecting auto modes. If you
+    // add additional auto modes you can add additional lines here with
+    // autoChooser.addOption
+    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystem));
+
     try {
       driveSubsystem = new DriveSubsystem();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
+
       e.printStackTrace();
     }
 
@@ -64,6 +105,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+    driverController.a().whileTrue(driveSubsystem.tune(
+      () -> driverController.getLeftX(), 
+      () -> driverController.getLeftY(),
+      () -> driverController.getRightX()
+      )
+      );
     // Set the A button to run the "RollerCommand" command with a fixed
     // value ejecting the gamepiece while the button is held
 
@@ -85,6 +133,21 @@ public class RobotContainer {
         )
         );
 
+        boolean isCompetition = true;
+
+
+        autoChooser = AutoBuilder.buildAutoChooser("CoralThenStation");
+ 
+      autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+      (stream) -> isCompetition
+        ? stream.filter(auto -> auto.getName().startsWith("comp"))
+        : stream
+    );
+ 
+
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -93,6 +156,16 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Commands.waitSeconds(0);
+    try{
+      // Load the path you want to follow using its name in the GUI
+      PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+
+
+      // Create a path following command using AutoBuilder. This will also trigger event markers.
+      return AutoBuilder.followPath(path);
+  } catch (Exception e) {
+      DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+      return Commands.none();
+    }
   }
 }
