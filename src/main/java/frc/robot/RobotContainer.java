@@ -79,8 +79,7 @@ public class RobotContainer {
           field.getObject("path").setPoses(poses);
       });
    
-    // Set up command bindings
-    configureBindings();
+
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
@@ -92,6 +91,9 @@ public class RobotContainer {
 
       e.printStackTrace();
     }
+
+    // Set up command bindings
+    configureBindings();
     
     autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
   }
