@@ -1,0 +1,14 @@
+{
+    "name": "427-reefscape-2025",
+    "image": "gradle:jdk17",
+    "hostRequirements": {
+        "cpus": 8,
+        "memory": "16gb"
+    },
+    "customizations": {
+        "codespaces": {
+            "repositories": {}
+        },
+        "vscode": {}
+    }
+}
