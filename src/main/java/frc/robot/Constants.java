@@ -2,7 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+
 package frc.robot;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -24,7 +26,11 @@ public final class Constants {
     public static final int RIGHT_FOLLOWER_ID = 4;
 
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
+
+    public static final double maxSpeed = 5;
+    public static final double maxAngularSpeed = Math.PI;
   }
+
 
   public static final class RollerConstants {
     public static final int ROLLER_MOTOR_ID = 5;
@@ -33,8 +39,31 @@ public final class Constants {
     public static final double ROLLER_EJECT_VALUE = 0.44;
   }
 
+
   public static final class OperatorConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;
   }
+ public static final class ClimbConstants {
+    public static final int ClimbGearRatio=100;
+    public static final int EncoaderConstant=42; 
+    public static final double kS=0; // the 
+    public static final double kA=0; // the acceleration
+    public static final double kV=0; // the velocity applied
+    public static final double kG=9.92; // the counter gravity
+    public static final float kForwardSoftLimit=0;
+    public static final float kReverseSoftLimit=180;
+    public static final double kAbsPositionConversionFactor=360;
+    public static final double kRelativePositionConversionFactor=360;
+    public static final int kMotorCurrentLimit=0;
+    public static final boolean kLeftMotorInverted=true;
+    public static final double kP=0;
+    public static final double kI=0;
+    public static final double kD=0;
+    public static final double kTravelPosition=0;
+    public static final int kLimitSwitchId=0;
+    public static final int kArmMotorLeftId=0;
+    public static final double kTolerance=0;
+    public static final double kGroundPosition=0;
+ }
 }

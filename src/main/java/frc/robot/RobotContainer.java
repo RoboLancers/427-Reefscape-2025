@@ -30,6 +30,8 @@ public class RobotContainer {
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
 
+  private final AlgaeIntakeRollers algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
+
   // The driver's controller
   private final CommandXboxController driverController = new CommandXboxController(
       OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -52,6 +54,8 @@ public class RobotContainer {
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
     autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystem));
+    rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+    algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
   }
 
   /**
@@ -76,6 +80,9 @@ public class RobotContainer {
     operatorController.a()
         .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
 
+    operatorController.b()
+        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
+    
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
@@ -95,6 +102,12 @@ public class RobotContainer {
         () -> operatorController.getRightTriggerAxis(),
         () -> operatorController.getLeftTriggerAxis(),
         rollerSubsystem));
+
+    algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
+        () -> operatorController.getRightTriggerAxis(),
+        () -> operatorController.getLeftTriggerAxis(),
+        algaeRollerSubsystem));
+    )
   }
 
   /**
