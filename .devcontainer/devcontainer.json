@@ -1,14 +1,11 @@
 {
-    "name": "427-reefscape-2025",
-    "image": "gradle:jdk17",
-    "hostRequirements": {
-        "cpus": 8,
-        "memory": "16gb"
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "postCreateCommand": "cd /opt && wget 'https://github.com/wpilibsuite/vscode-wpilib/releases/download/v2025.2.1/vscode-wpilib-2025.2.1.vsix'",
+    "features": {
     },
     "customizations": {
-        "codespaces": {
-            "repositories": {}
-        },
-        "vscode": {}
+      "vscode": {
+        "extensions": ["/opt/vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
+      }
     }
 }
