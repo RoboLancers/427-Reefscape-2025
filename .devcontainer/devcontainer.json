@@ -1,5 +1,5 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/ubuntu",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "postCreateCommand": "cd /opt && wget 'https://github.com/wpilibsuite/vscode-wpilib/releases/download/v2025.2.1/vscode-wpilib-2025.2.1.vsix'",
     "features": {
     },
