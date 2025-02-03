@@ -1,6 +1,6 @@
 {
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-    "postCreateCommand": "cd /home/codespaces && wget 'https://github.com/wpilibsuite/vscode-wpilib/releases/download/v2025.2.1/vscode-wpilib-2025.2.1.vsix' && sudo apt update && sudo apt install -y openjdk-17",
+    "postCreateCommand": "cd /home/vscode && wget 'https://github.com/wpilibsuite/vscode-wpilib/releases/download/v2025.2.1/vscode-wpilib-2025.2.1.vsix' && sudo apt update && sudo apt install -y openjdk-17",
    "features": {
      "ghcr.io/devcontainers/features/java:1": {
         "version": "none",
