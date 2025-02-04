@@ -7,9 +7,15 @@
           "version": "17",
           "installGradle": "true",
           "installMaven": "true"
-
-       }
+       },
+         "desktop-lite": {
+			"password": "vscode",
+			"webPort": "6080",
+			"vncPort": "5901"
+		}
     },
+  "runArgs": ["--shm-size=1g"],
+  "forwardPorts": [6080, 5901],
       "customizations": {
         "vscode": {
           "extensions": ["/home/vscode/vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
