@@ -17,39 +17,12 @@ public class ClimbSubsystem extends SubsystemBase {
   
   private final SparkMax rollerMotor;
   private ClimbSubsystem() {
-    rollerMotor = new SparkMax(RollerConstants.ROLLER_MOTOR_ID, MotorType.kBrushed);
-   // This funtions will set up the motors and encoders
-   setupmotors();
-   // Add Encoders
-   // Add PID controller
-   // Add feedforward
-   // Add limit switch
-   // Add velocity
-   // Add target position
-   // Add control type 
-  }
-
-  public void setupmotors(){
-    // Set can timeout. Because this project only sets parameters once on
-    // construction, the timeout can be long without blocking robot operation. Code
-    // which sets or gets parameters during operation may need a shorter timeout.
-    rollerMotor.setCANTimeout(250);
-    rollerMotor.getAbsoluteEncoder();
-    // Create and apply configuration for roller motor. Voltage compensation helps
-    // the roller behave the same as the battery
-    // voltage dips. The current limit helps prevent breaker trips or burning out
-    // the motor in the event the roller stalls.
-    SparkMaxConfig rollerConfig = new SparkMaxConfig();
-    rollerConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
-    rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
-    rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    Arm.getInstance;
   }
   @Override
   public void periodic() {
   }
-
   /** This is a method that makes the roller spin */
-  public void runRoller(double forward, double reverse) {
-    rollerMotor.set(forward - reverse);
+  public void moveArm(double forward, double reverse) {
   }
 }
