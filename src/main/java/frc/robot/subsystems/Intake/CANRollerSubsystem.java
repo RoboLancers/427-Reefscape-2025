@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Intake;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RollerConstants;
 import com.revrobotics.spark.SparkMax;
@@ -42,5 +43,11 @@ public class CANRollerSubsystem extends SubsystemBase {
   /** This is a method that makes the roller spin */
   public void runRoller(double forward, double reverse) {
     rollerMotor.set(forward - reverse);
+  }
+
+  public Command runRollerCommand(double forward, double reverse) {
+    return run(() -> {
+      this.runRoller(forward, reverse);
+    });
   }
 }

@@ -1,21 +1,24 @@
 package frc.robot.subsystems.Vision;
+
 import java.util.List;
 import java.util.Optional;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
-import frc.robot.Constants;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.units.measure.Distance;
+
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 
@@ -23,15 +26,17 @@ import frc.robot.subsystems.DriveSubsystem;
 public class VisionSubsystem extends SubsystemBase {
     
     public static VisionSubsystem instance;
+
+
+    private PhotonCamera camera;
+    private List<PhotonPipelineResult> unreadResults;
+    private PhotonPoseEstimator photonPoseEstimator;
+    private EstimatedRobotPose estimatedPose;
+    private Pose3d referencePose;
     
-    PhotonCamera camera;
-    PhotonPoseEstimator photonPoseEstimator;
-    List<PhotonPipelineResult> unreadResults;
-    EstimatedRobotPose estimatedPose;
-    Pose3d referencePose;
-    
-    public VisionSubsystem() {
-        camera = new PhotonCamera("photonvision");
+    private VisionSubsystem() {
+        //same name as camera in the PhotonVision UI
+        camera = new PhotonCamera("USB Camera");
         photonPoseEstimator = new PhotonPoseEstimator(Constants.VisionConstants.aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, Constants.VisionConstants.robotToCam);
     }
     
@@ -41,12 +46,12 @@ public class VisionSubsystem extends SubsystemBase {
 
         unreadResults = camera.getAllUnreadResults();
         
-        unreadResults.get(unreadResults.size()-1);
+        PhotonPipelineResult latestResult = unreadResults.get(unreadResults.size()-1);
             // [1, 2, 5] elements (3)
             //  0  1  2  index    (2)
-        //Last index = number of elements -1, LAST APRILTAG detected in last frame
+        //Last index = number of elements - 1, LAST APRILTAG detected in last frame
 
-        Optional<EstimatedRobotPose> estimate = photonPoseEstimator.update(unreadResults.get(unreadResults.size()-1));
+        Optional<EstimatedRobotPose> estimate = photonPoseEstimator.update(latestResult);
             //Most recent estimated pose
         //Optional: if you do or dont have estimated already
         if (estimate.isPresent()) {
@@ -57,8 +62,8 @@ public class VisionSubsystem extends SubsystemBase {
         } //If no estimated pose, return to periodic
 
         photonPoseEstimator.setReferencePose(estimatedPose.estimatedPose);
-        //Gets pose from PhotonVision and use WPILib's Pose3d to set as a reference position (LAST POSITION)
-        //Gets refrence pose from last pose
+        /*Gets pose from PhotonVision and use WPILib's Pose3d to set as a reference position (LAST POSITION).
+        Also gets refrence pose from last pose*/
 
         //Logs X,Y, and Z values onto the SmartDashboard
         Constants.VisionConstants.aprilTagFieldLayout.getTagPose(getBestAprilTagID()).get().getX();
@@ -76,6 +81,10 @@ public class VisionSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("VisionTargetY", getAprilTagPos(getBestAprilTagID()).getY());
             SmartDashboard.putNumber("VisionTargetZ", getAprilTagPos(getBestAprilTagID()).getZ());    
         }
+    }
+
+    public static VisionSubsystem getInstance() {
+        return instance;
     }
 
     private Pose3d getReferencePose() {
@@ -117,8 +126,4 @@ public class VisionSubsystem extends SubsystemBase {
     private Rotation3d getRotation3d() {
         return getCurrentPose3d().estimatedPose.getRotation();
     }
-
-    
-
-    
 }
