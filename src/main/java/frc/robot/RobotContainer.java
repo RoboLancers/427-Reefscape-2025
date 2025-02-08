@@ -18,12 +18,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AutoCommand;
-import frc.robot.subsystems.CANDriveSubsystem;
+// import frc.robot.commands.AutoCommand;
+// import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
-
-
-//import frc.robot.subsystems.DriveSubsystem;
 
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -44,7 +41,7 @@ public class RobotContainer {
       OperatorConstants.DRIVER_CONTROLLER_PORT);
 
       public DriveSubsystem driveSubsystem;
-      public CANDriveSubsystem driveSubsystemCAN;
+      //public CANDriveSubsystem driveSubsystemCAN;
 
        // The autonomous chooser
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -93,7 +90,7 @@ public class RobotContainer {
       e.printStackTrace();
     }
     
-    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
   }
 
   /**
