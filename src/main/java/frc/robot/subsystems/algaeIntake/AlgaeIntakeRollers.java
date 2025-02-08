@@ -62,8 +62,11 @@ public class AlgaeIntakeRollersSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // The value of the beambreak
     this.beambreakvalue = getBeamBreakValue()
+    //The variable of weather the top limit switch was pressed or not.
     this.LimitSwitchTopState=LimitSwitchTopisPressed();
+    //If the top limit switch is pressed then
     if (LimitSwitchTopState==true){
 
     }

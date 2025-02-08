@@ -9,13 +9,13 @@ import frc.robot.subsystems.CANRollerSubsystem;
 import java.util.function.DoubleSupplier;
 
 // Command to run the roller with joystick inputs
-public class RollerCommand extends Command {
+public class AlgaeCommand extends Command {
   private final DoubleSupplier forward;
   private final DoubleSupplier reverse;
   // private final CANRollerSubsystem rollerSubsystem;
-  private final CANRollerSubsystem rollerSubsystem;
+  private final CANRollerSubsystem AlgaeSubsystem;
 
-  public RollerCommand(
+  public AlgaeCommand(
       DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem rollerSubsystem) {
     this.forward = forward;
     this.reverse = reverse;
