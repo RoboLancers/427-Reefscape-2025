@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.AlgaeIntake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RollerConstants;
@@ -13,12 +13,23 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 /** Class to run the rollers over CAN */
-public class CANRollerSubsystem extends SubsystemBase {
+public class AlgaeSubsystem extends SubsystemBase {
+  
   private final SparkMax rollerMotor;
-
-  public CANRollerSubsystem() {
-    // Set up the roller motor as a brushed motor
+  private AlgaeSubsystem() {
     rollerMotor = new SparkMax(RollerConstants.ROLLER_MOTOR_ID, MotorType.kBrushed);
+   // This funtions will set up the motors and encoders
+   setupmotors();
+   // Add Encoders
+   // Add PID controller
+   // Add feedforward
+   // Add limit switch
+   // Add velocity
+   // Add target position
+   // Add control type 
+  }
+
+  public void setupmotors(){
 
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
@@ -34,7 +45,6 @@ public class CANRollerSubsystem extends SubsystemBase {
     rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
     rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
-
   @Override
   public void periodic() {
   }
