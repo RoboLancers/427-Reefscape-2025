@@ -19,7 +19,7 @@ public class AlgaeCommand extends Command {
       DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem rollerSubsystem) {
     this.forward = forward;
     this.reverse = reverse;
-    this.rollerSubsystem = rollerSubsystem;
+    this.AlgaeSubsystem = rollerSubsystem;
 
     addRequirements(this.rollerSubsystem);
   }

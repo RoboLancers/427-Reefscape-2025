@@ -66,4 +66,26 @@ public final class Constants {
     public static final double kTolerance=0;
     public static final double kGroundPosition=0;
  }
+ public static final class AlgaeConstants {
+   public static final int AlgaeGearRatio=100; //Find out the actual value later
+    public static final int EncoaderConstant=42; 
+    public static final double kS=0; // the 
+    public static final double kA=0; // the acceleration
+    public static final double kV=0; // the velocity applied
+    public static final double kG=9.92; // the counter gravity. Find out the actual value later.
+    public static final float kForwardSoftLimit=0;
+    public static final float kReverseSoftLimit=180;
+    public static final double kAbsPositionConversionFactor=360;
+    public static final double kRelativePositionConversionFactor=360;
+    public static final int kMotorCurrentLimit=0;
+    public static final boolean kLeftMotorInverted=true;
+    public static final double kP=0;
+    public static final double kI=0;
+    public static final double kD=0;
+    public static final double kTravelPosition=0;
+    public static final int kLimitSwitchId=0;
+    public static final int kArmMotorLeftId=0;
+    public static final double kTolerance=0;
+    public static final double kGroundPosition=0;
+ }
 }

@@ -15,6 +15,8 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RollerCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANRollerSubsystem;
+import frc.robot.commands.AlgaeCommand;
+import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollers;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -83,6 +85,8 @@ public class RobotContainer {
     operatorController.b()
         .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
+    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,()->algaeRollerSubsystem );
+        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,()->algaeRollerSubsystem );
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the

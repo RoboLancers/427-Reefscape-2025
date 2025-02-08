@@ -66,13 +66,18 @@ public class AlgaeIntakeRollersSubsystem extends SubsystemBase {
     this.beambreakvalue = getBeamBreakValue()
     //The variable of weather the top limit switch was pressed or not.
     this.LimitSwitchTopState=LimitSwitchTopisPressed();
-    //If the top limit switch is pressed then
+    // If the top limit switch is pressed then it will stop the intakemotor.
     if (LimitSwitchTopState==true){
-
+    IntakeMotor.set(0,0);
     }
-    else {
-
-    }
+     }
+    // If the bottom limit switch is pressed then it will stop the intake motor.
+     if (LimitSwitchBottomisPressed()==true){
+      IntakeMotor.set(0,0);
+     }
+     // If the beambreak gets tripped then it will stop the roller motor.
+     if (beambreakvalue==true){
+      rollerMotor.set(0,0);
      }
 
   /** This is a method that makes the roller spin */
