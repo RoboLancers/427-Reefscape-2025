@@ -40,10 +40,10 @@ public class RobotContainer {
 
   private final Field2d field;
   
-  private final CommandXboxController driverController = new CommandXboxController(
-      OperatorConstants.DRIVER_CONTROLLER_PORT);
-
-      public DriveSubsystem driveSubsystem;
+  private final CommandXboxController driverController = new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
+  
+    public DriveSubsystem driveSubsystem;
+   
       public CANDriveSubsystem driveSubsystemCAN;
 
        // The autonomous chooser
@@ -79,8 +79,7 @@ public class RobotContainer {
           field.getObject("path").setPoses(poses);
       });
    
-    // Set up command bindings
-    configureBindings();
+    
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
@@ -94,6 +93,8 @@ public class RobotContainer {
     }
     
     autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    // Set up command bindings
+    configureBindings();
   }
 
   /**
