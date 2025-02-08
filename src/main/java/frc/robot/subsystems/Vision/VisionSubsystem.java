@@ -9,15 +9,19 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
-import frc.robot.Constants;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.units.measure.Distance;
+
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 
@@ -92,6 +96,10 @@ public class VisionSubsystem extends SubsystemBase {
         SmartDashboard.putData("Vision Field", visionField);
     }
 
+    public static VisionSubsystem getInstance() {
+        return instance;
+    }
+
     private Pose3d getReferencePose() {
         return referencePose;
     }
@@ -131,8 +139,4 @@ public class VisionSubsystem extends SubsystemBase {
     private Rotation3d getRotation3d() {
         return getCurrentPose3d().estimatedPose.getRotation();
     }
-
-    
-
-    
 }
