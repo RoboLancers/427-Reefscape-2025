@@ -1,7 +1,9 @@
 package frc.robot.subsystems.Vision;
+import java.nio.channels.UnresolvedAddressException;
 import java.util.List;
 import java.util.Optional;
 
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -26,12 +28,17 @@ public class VisionSubsystem extends SubsystemBase {
     
     PhotonCamera camera;
     PhotonPoseEstimator photonPoseEstimator;
-    List<PhotonPipelineResult> unreadResults;
+    PhotonPipelineResult latestResults;
     EstimatedRobotPose estimatedPose;
     Pose3d referencePose;
+
+    private Field2d visionField = new Field2d(); 
     
     public VisionSubsystem() {
-        camera = new PhotonCamera("photonvision");
+        PhotonCamera.setVersionCheckEnabled(true);
+        
+        camera = new PhotonCamera("USB_Camera");
+        
         photonPoseEstimator = new PhotonPoseEstimator(Constants.VisionConstants.aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, Constants.VisionConstants.robotToCam);
     }
     
@@ -39,24 +46,28 @@ public class VisionSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putBoolean("Front Camera is Connected", this.camera.isConnected());
 
-        unreadResults = camera.getAllUnreadResults();
+        List<PhotonPipelineResult> unreadResults = camera.getAllUnreadResults();
         
-        unreadResults.get(unreadResults.size()-1);
+        if (unreadResults.size() == 0) return; 
             // [1, 2, 5] elements (3)
             //  0  1  2  index    (2)
         //Last index = number of elements -1, LAST APRILTAG detected in last frame
+        latestResults = unreadResults.get(unreadResults.size()-1);
 
         Optional<EstimatedRobotPose> estimate = photonPoseEstimator.update(unreadResults.get(unreadResults.size()-1));
-            //Most recent estimated pose
+        SmartDashboard.putBoolean("Estimator Present", estimate.isPresent());    
+        //Most recent estimated pose
         //Optional: if you do or dont have estimated already
         if (estimate.isPresent()) {
             estimatedPose = estimate.get();
             //If have estimated pose, get reference pose from it
         } else {  
+         
             return;
         } //If no estimated pose, return to periodic
 
         photonPoseEstimator.setReferencePose(estimatedPose.estimatedPose);
+        referencePose = estimatedPose.estimatedPose;
         //Gets pose from PhotonVision and use WPILib's Pose3d to set as a reference position (LAST POSITION)
         //Gets refrence pose from last pose
 
@@ -76,6 +87,9 @@ public class VisionSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("VisionTargetY", getAprilTagPos(getBestAprilTagID()).getY());
             SmartDashboard.putNumber("VisionTargetZ", getAprilTagPos(getBestAprilTagID()).getZ());    
         }
+
+        visionField.setRobotPose(getReferencePose().toPose2d());
+        SmartDashboard.putData("Vision Field", visionField);
     }
 
     private Pose3d getReferencePose() {
@@ -87,7 +101,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     private int getBestAprilTagID() {
-        return ((PhotonPipelineResult) unreadResults).getBestTarget().getFiducialId();
+        return latestResults.getBestTarget().getFiducialId();
     }
 
     private EstimatedRobotPose getCurrentPose3d() {

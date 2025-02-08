@@ -21,7 +21,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
-
+import frc.robot.subsystems.Vision.VisionSubsystem;
 
 //import frc.robot.subsystems.DriveSubsystem;
 
@@ -43,10 +43,10 @@ public class RobotContainer {
   private final CommandXboxController driverController = new CommandXboxController(
       OperatorConstants.DRIVER_CONTROLLER_PORT);
 
-      public DriveSubsystem driveSubsystem;
-      public CANDriveSubsystem driveSubsystemCAN;
+      // public DriveSubsystem driveSubsystem;
+      // public CANDriveSubsystem driveSubsystemCAN;
 
-       // The autonomous chooser
+       public VisionSubsystem visionSubsystem = new VisionSubsystem();
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
@@ -85,17 +85,17 @@ public class RobotContainer {
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
 
-    try {
-      driveSubsystem = new DriveSubsystem();
-    } catch (IOException e) {
+    // try {
+    //   driveSubsystem = new DriveSubsystem();
+    // } catch (IOException e) {
 
-      e.printStackTrace();
-    }
+      // e.printStackTrace();
+    // }
 
-    // Set up command bindings
-    configureBindings();
+    // // Set up command bindings
+    // configureBindings();
     
-    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    // autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
   }
 
   /**
@@ -114,12 +114,12 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    driverController.a().whileTrue(driveSubsystem.tune(
-      () -> driverController.getLeftX(), 
-      () -> driverController.getLeftY(),
-      () -> driverController.getRightX()
-      )
-      );
+    // driverController.a().whileTrue(driveSubsystem.tune(
+    //   () -> driverController.getLeftX(), 
+    //   () -> driverController.getLeftY(),
+    //   () -> driverController.getRightX()
+    //   )
+    //   );
     // Set the A button to run the "RollerCommand" command with a fixed
     // value ejecting the gamepiece while the button is held
 
@@ -133,13 +133,13 @@ public class RobotContainer {
 
     //translationx and translatioin y to left joystick 
     // angular rotaiton to right x joystick
-    driveSubsystem.setDefaultCommand(
-      driveSubsystem.driveCommand( 
-        () -> driverController.getLeftX(), 
-        () -> driverController.getLeftY(),
-        () -> driverController.getRightX()
-        )
-        );
+    // driveSubsystem.setDefaultCommand(
+    //   driveSubsystem.driveCommand( 
+    //     () -> driverController.getLeftX(), 
+    //     () -> driverController.getLeftY(),
+    //     () -> driverController.getRightX()
+    //     )
+    //     );
 
         boolean isCompetition = true;
 
