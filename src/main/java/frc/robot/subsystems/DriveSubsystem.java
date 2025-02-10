@@ -23,14 +23,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.PIDFConfig;
 import swervelib.SwerveModule;
 
-public class DriveSubsystem extends SubsystemBase {
-  SwerveDrive swerveDrive;
-  RobotConfig config;
 
-  public DriveSubsystem() throws IOException {
-    File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
-    swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(DriveConstants.maxSpeed);
-    swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.maxAngularSpeed);
+public class DriveSubsystem extends SubsystemBase{
+    SwerveDrive swerveDrive;
+    RobotConfig config;
+
+    public DriveSubsystem() throws IOException{
+        File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
+        swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(DriveConstants.maxSpeed);
+        swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.maxAngularSpeed);
+        try{
+            config = RobotConfig.fromGUISettings();
+          } catch (Exception e) {
+            // Handle exception as needed
+            e.printStackTrace();
+          }
 
     try {
       config = RobotConfig.fromGUISettings();
