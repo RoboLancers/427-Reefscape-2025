@@ -4,7 +4,7 @@ Robot code for 427 for the 2025 FRC season.
 
 # subsystems:
 - Drivetrain: Controls the swerve drive and driver inputs
-- climb: Controls the climb mechanism
+- climb: Controls the climb mechanism.
 - Algae: Controls the algae intake.
 
 # Setting up a dev container:
