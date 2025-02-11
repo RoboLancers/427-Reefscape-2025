@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,16 +9,15 @@ import java.util.function.DoubleSupplier;
 public class RollerCommand extends Command {
   private final DoubleSupplier forward;
   private final DoubleSupplier reverse;
-  // private final CANRollerSubsystem rollerSubsystem;
-  private final CANRollerSubsystem rollerSubsystem;
+  private final CANRollerSubsystem CANRollerSubsystem;
 
-  public RollerCommand(
-      DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem rollerSubsystem) {
+  public RollerCommand (DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem CANRollerSubsystem) {
+
     this.forward = forward;
     this.reverse = reverse;
-    this.rollerSubsystem = rollerSubsystem;
+    this.CANRollerSubsystem = CANRollerSubsystem;
 
-    addRequirements(this.rollerSubsystem);
+    addRequirements(this.CANRollerSubsystem);
   }
 
   @Override
@@ -33,10 +28,10 @@ public class RollerCommand extends Command {
   @Override
   public void execute() {
     // Run the roller motor at the desired speed
-    rollerSubsystem.runRoller(forward.getAsDouble(), reverse.getAsDouble());
-  }
-
-  // Runs each time the command ends via isFinished or being interrupted.
+    CANRollerSubsystem.runRoller(forward.getAsDouble(), reverse.getAsDouble());
+      }
+    
+      // Runs each time the command ends via isFinished or being interrupted.
   @Override
   public void end(boolean isInterrupted) {
   }
