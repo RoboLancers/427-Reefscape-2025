@@ -17,7 +17,7 @@ public class ClimbSubsystem extends SubsystemBase {
   
   private final SparkMax rollerMotor;
   private ClimbSubsystem() {
-    Arm.getInstance;
+    Arm.getInstance();
   }
   @Override
   public void periodic() {

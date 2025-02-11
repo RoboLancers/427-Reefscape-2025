@@ -27,7 +27,7 @@ import frc.robot.subsystems.Intake.CANRollerSubsystem;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.AlgaeCommand;
-import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollers;
+import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollerSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -43,7 +43,7 @@ public class RobotContainer {
   private final Field2d field;
   
 
-  private final AlgaeIntakeRollers algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
+  private final AlgaeIntakeRollerSubsystem algaeRollerSubsystem = new AlgaeIntakeRollerSubsystem();
 
   private final CommandXboxController driverController = new CommandXboxController(
       OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -100,7 +100,7 @@ public class RobotContainer {
     
     autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
     rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
-    algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
+    algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
     // Set up command bindings
     configureBindings();
   }
@@ -137,8 +137,8 @@ public class RobotContainer {
     operatorController.b()
         .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
-    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,()->algaeRollerSubsystem );
-        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,()->algaeRollerSubsystem );
+    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,()->algaeRollerSubsystem ));
+    operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,()->algaeRollerSubsystem ));
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
@@ -170,9 +170,6 @@ public class RobotContainer {
         () -> operatorController.getRightTriggerAxis(),
         () -> operatorController.getLeftTriggerAxis(),
         algaeRollerSubsystem));
-    )
- 
-
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
