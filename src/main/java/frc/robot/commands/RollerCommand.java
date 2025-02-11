@@ -1,26 +1,25 @@
 // // Copyright (c) FIRST and other WPILib contributors.
 // // Open Source Software; you can modify and/or share it under the terms of
 // // the WPILib BSD license file in the root directory of this project.
+package frc.robot.commands;
 
-// package frc.robot.commands;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Intake.CANRollerSubsystem;
 
-// import edu.wpi.first.wpilibj2.command.Command;
-// import frc.robot.subsystems.IntakeSubsystemSubsystem;
+import java.util.function.DoubleSupplier;
 
-// import java.util.function.DoubleSupplier;
+// Command to run the roller with joystick inputs
+public class RollerCommand extends Command {
+  private final DoubleSupplier forward;
+  private final DoubleSupplier reverse;
+  // private final CANRollerSubsystem rollerSubsystem;
+  private final CANRollerSubsystem rollerSubsystem;
 
-// // Command to run the roller with joystick inputs
-// public class RollerCommand extends Command {
-//   private final DoubleSupplier forward;
-//   private final DoubleSupplier reverse;
-//   // private final CANRollerSubsystem rollerSubsystem;
-//   private final IntakeSubsystem rollerSubsystem;
-
-//   public RollerCommand(
-//       DoubleSupplier forward, DoubleSupplier reverse, ClimbSubsystem rollerSubsystem) {
-//     this.forward = forward;
-//     this.reverse = reverse;
-//     this.rollerSubsystem = rollerSubsystem;
+  public RollerCommand(
+      DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem rollerSubsystem) {
+    this.forward = forward;
+    this.reverse = reverse;
+    this.rollerSubsystem = rollerSubsystem;
 
 //     addRequirements(this.rollerSubsystem);
 //   }
@@ -48,5 +47,5 @@
 //     // Return false to indicate that this command never ends. It can be interrupted
 //     // by another command needing the same subsystem.
 //     return false;
-//   }
-// }
+  }
+ }

@@ -11,7 +11,10 @@ import java.io.IOException;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -76,8 +79,7 @@ public class RobotContainer {
           field.getObject("path").setPoses(poses);
       });
    
-    // Set up command bindings
-    configureBindings();
+    
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
@@ -89,6 +91,8 @@ public class RobotContainer {
 
       e.printStackTrace();
     }
+
+    configureBindings();
     
     //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
   }
@@ -115,6 +119,10 @@ public class RobotContainer {
       () -> driverController.getRightX()
       )
       );
+
+    if(RobotBase.isSimulation()){
+      driveSubsystem.resetPose(new Pose2d(2,2,new Rotation2d()));
+    } 
     // Set the A button to run the "RollerCommand" command with a fixed
     // value ejecting the gamepiece while the button is held
 

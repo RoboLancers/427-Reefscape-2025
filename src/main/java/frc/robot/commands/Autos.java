@@ -2,13 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-// package frc.robot.commands;
+package frc.robot.commands;
 
-// import frc.robot.subsystems.ExampleSubsystem;
-// import frc.robot.subsystems.DriveSubsystem;
-// import frc.robot.subsystems.IntakeSubsystem;
-// import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.Commands;
+//import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Intake.CANRollerSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 // public final class Autos {
 //   /** Example static factory for an autonomous command. */
@@ -16,14 +16,11 @@
 //     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
 //   }
 
-// // Need Intake Subsystem and intake/outtake commands coded.
-//   public static Command dropCoralAuto(IntakeSubsystem subsystem) {
-//     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
-//   }
-// // Need drive command coded.
-// public static Command dropCoralAuto(DriveSubsystem subsystem) {
-//     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
-//   }
+// Need Intake Subsystem and intake/outtake commands coded.
+ // public static Command dropCoralAuto(ExampleSubsystem subsystem) {
+  //  return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
+  //}
+// Need drive command coded.
   
 //   private Autos() {
 //     throw new UnsupportedOperationException("This is a utility class!");
