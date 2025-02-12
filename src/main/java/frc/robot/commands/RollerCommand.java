@@ -12,14 +12,13 @@ import java.util.function.DoubleSupplier;
 public class RollerCommand extends Command {
   private final DoubleSupplier forward;
   private final DoubleSupplier reverse;
-  // private final CANRollerSubsystem rollerSubsystem;
-  private final CANRollerSubsystem rollerSubsystem;
+  private final CANRollerSubsystem CANRollerSubsystem;
 
-  public RollerCommand(
-      DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem rollerSubsystem) {
+  public RollerCommand (DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem CANRollerSubsystem) {
+
     this.forward = forward;
     this.reverse = reverse;
-    this.rollerSubsystem = rollerSubsystem;
+    this.CANRollerSubsystem = CANRollerSubsystem;
 
 //     addRequirements(this.rollerSubsystem);
 //   }

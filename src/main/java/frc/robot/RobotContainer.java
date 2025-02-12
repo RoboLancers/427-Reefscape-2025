@@ -24,8 +24,13 @@ import frc.robot.Constants.OperatorConstants;
 // import frc.robot.commands.AutoCommand;
 // import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
+import frc.robot.subsystems.Vision.VisionSubsystem;
+
+//import frc.robot.subsystems.DriveSubsystem;
 
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.commands.AlgaeCommand;
+import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollers;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -40,13 +45,16 @@ public class RobotContainer {
 
   private final Field2d field;
   
+
+  private final AlgaeIntakeRollers algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
+
   private final CommandXboxController driverController = new CommandXboxController(
       OperatorConstants.DRIVER_CONTROLLER_PORT);
 
       public DriveSubsystem driveSubsystem;
-      //public CANDriveSubsystem driveSubsystemCAN;
+      public CANDriveSubsystem driveSubsystemCAN;
 
-       // The autonomous chooser
+       public VisionSubsystem visionSubsystem = new VisionSubsystem();
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
@@ -78,20 +86,27 @@ public class RobotContainer {
           // Do whatever you want with the poses here
           field.getObject("path").setPoses(poses);
       });
-   
-    
+
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
 
-    try {
-      driveSubsystem = new DriveSubsystem();
-    } catch (IOException e) {
+    // try {
+    //   driveSubsystem = new DriveSubsystem();
+    // } catch (IOException e) {
 
-      e.printStackTrace();
-    }
+      // e.printStackTrace();
+    // }
 
+    // // Set up command bindings
+    // configureBindings();
+    
+
+    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+    algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
+    // Set up command bindings
     configureBindings();
     
     //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
@@ -126,7 +141,15 @@ public class RobotContainer {
     // Set the A button to run the "RollerCommand" command with a fixed
     // value ejecting the gamepiece while the button is held
 
+    // befo
+    operatorController.a()
+        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
 
+    operatorController.b()
+        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
+    
+    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,()->algaeRollerSubsystem );
+        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,()->algaeRollerSubsystem );
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
@@ -136,13 +159,13 @@ public class RobotContainer {
 
     //translationx and translatioin y to left joystick 
     // angular rotaiton to right x joystick
-    driveSubsystem.setDefaultCommand(
-      driveSubsystem.driveCommand( 
-        () -> driverController.getLeftX(), 
-        () -> driverController.getLeftY(),
-        () -> driverController.getRightX()
-        )
-        );
+    // driveSubsystem.setDefaultCommand(
+    //   driveSubsystem.driveCommand( 
+    //     () -> driverController.getLeftX(), 
+    //     () -> driverController.getLeftY(),
+    //     () -> driverController.getRightX()
+    //     )
+    //     );
 
         boolean isCompetition = true;
 
@@ -154,6 +177,11 @@ public class RobotContainer {
         ? stream.filter(auto -> auto.getName().startsWith("comp"))
         : stream
     );
+    algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
+        () -> operatorController.getRightTriggerAxis(),
+        () -> operatorController.getLeftTriggerAxis(),
+        algaeRollerSubsystem));
+    )
  
 
 
