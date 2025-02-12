@@ -19,11 +19,16 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import swervelib.parser.SwerveParser;
+import swervelib.telemetry.SwerveDriveTelemetry;
+import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import swervelib.SwerveDrive;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.PIDFConfig;
 import swervelib.SwerveModule;
@@ -31,12 +36,17 @@ import swervelib.SwerveModule;
 public class DriveSubsystem extends SubsystemBase{
     SwerveDrive swerveDrive;
     RobotConfig config;
-    Pose2d robotPose;
+    Pose2d robotPose; 
+    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose2d.struct).publish();
 
     public DriveSubsystem() throws IOException{
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
         swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(DriveConstants.maxSpeed);
         swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.maxAngularSpeed);
+
+        //do this in sim
+        swerveDrive.setHeadingCorrection(false);
+        swerveDrive.setCosineCompensator(false);
         try{
             config = RobotConfig.fromGUISettings();
           } catch (Exception e) {
@@ -147,12 +157,12 @@ public class DriveSubsystem extends SubsystemBase{
 
       @Override
       public void periodic() {
-        // try{
+        // try {
         //   robotPose = swerveDrive.getSimulationDriveTrainPose().get();
-        //   SmartDashboard.put
-        // } catch NoSuchElementException {
-
-        // }
+        //   publisher.set(robotPose);
+        // } 
+        robotPose = swerveDrive.getPose();
+        publisher.set(robotPose);
         swerveDrive.updateOdometry();
           
       }
