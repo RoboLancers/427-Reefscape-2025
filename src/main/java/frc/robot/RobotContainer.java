@@ -30,7 +30,9 @@ import frc.robot.subsystems.Vision.VisionSubsystem;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.AlgaeCommand;
-import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollers;
+import frc.robot.commands.RollerCommand;
+import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
+import frc.robot.Constants.RollerConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -46,13 +48,15 @@ public class RobotContainer {
   private final Field2d field;
   
 
-  private final AlgaeIntakeRollers algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
+  private final AlgaeIntakeRollersSubsystem algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
 
   private final CommandXboxController driverController = new CommandXboxController(
       OperatorConstants.DRIVER_CONTROLLER_PORT);
+  private final CommandXboxController operatorController = new CommandXboxController(
+        OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
       public DriveSubsystem driveSubsystem;
-      public CANDriveSubsystem driveSubsystemCAN;
+      public CANRollerSubsystem rollerSubsystem;
 
        public VisionSubsystem visionSubsystem = new VisionSubsystem();
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -103,11 +107,11 @@ public class RobotContainer {
     // configureBindings();
     
 
-    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
-    rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
-    algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
+    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    //rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+    //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
     // Set up command bindings
-    configureBindings();
+    //configureBindings();
     
     //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
   }
@@ -146,10 +150,10 @@ public class RobotContainer {
         .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
 
     operatorController.b()
-        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
+        .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
-    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,()->algaeRollerSubsystem );
-        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,()->algaeRollerSubsystem );
+    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,algaeRollerSubsystem ));
+        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,algaeRollerSubsystem ));
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
@@ -177,11 +181,11 @@ public class RobotContainer {
         ? stream.filter(auto -> auto.getName().startsWith("comp"))
         : stream
     );
-    algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
-        () -> operatorController.getRightTriggerAxis(),
-        () -> operatorController.getLeftTriggerAxis(),
-        algaeRollerSubsystem));
-    )
+    //algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
+    //    () -> operatorController.getRightTriggerAxis(),
+    //    () -> operatorController.getLeftTriggerAxis(),
+    //    algaeRollerSubsystem));
+    //    )
  
 
 

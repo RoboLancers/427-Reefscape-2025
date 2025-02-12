@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Climb.arm;
+package frc.robot.subsystems.climb.arm;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;

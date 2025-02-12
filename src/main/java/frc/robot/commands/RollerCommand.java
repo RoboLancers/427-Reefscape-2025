@@ -12,27 +12,27 @@ import java.util.function.DoubleSupplier;
 public class RollerCommand extends Command {
   private final DoubleSupplier forward;
   private final DoubleSupplier reverse;
-  private final CANRollerSubsystem CANRollerSubsystem;
+  private final CANRollerSubsystem rollerSubsystem;
 
   public RollerCommand (DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem CANRollerSubsystem) {
 
     this.forward = forward;
     this.reverse = reverse;
-    this.CANRollerSubsystem = CANRollerSubsystem;
+    this.rollerSubsystem = CANRollerSubsystem;
 
 //     addRequirements(this.rollerSubsystem);
-//   }
+   }
 
 //   @Override
 //   public void initialize() {
 //   }
 
 //   // Runs every cycle while the command is scheduled (~50 times per second)
-//   @Override
-//   public void execute() {
+   @Override
+public void execute() {
 //     // Run the roller motor at the desired speed
-//     rollerSubsystem.runRoller(forward.getAsDouble(), reverse.getAsDouble());
-//   }
+     rollerSubsystem.runRoller(forward.getAsDouble(), reverse.getAsDouble());
+   }
 
 //   // Runs each time the command ends via isFinished or being interrupted.
 //   @Override
@@ -47,4 +47,3 @@ public class RollerCommand extends Command {
 //     // by another command needing the same subsystem.
 //     return false;
   }
- }
