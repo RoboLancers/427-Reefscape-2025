@@ -83,7 +83,7 @@ public final class Constants {
     public static final double kGroundPosition=0;
  }
  public static final class AlgaeConstants {
-   public static final int AlgaeGearRatio=100; //Find out the actual value later
+   public static final int AlgaeGearRatio=80;
     public static final int EncoaderConstant=42; 
     public static final double kS=0; // the 
     public static final double kA=0; // the acceleration

@@ -203,6 +203,5 @@ public class Arm extends SubsystemBase {
 
         SmartDashboard.putBoolean("Arm Limit Switch", getLimitSwitchValue());
         // SmartDashboard.putBoolean("left inverted", m_armMotorLeft.getInverted()); 
-        // SmartDashboard.putBoolean("right inverted", m_armMotorRight.getInverted()); 
     }
 }

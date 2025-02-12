@@ -11,16 +11,31 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 /** Class to run the rollers over CAN */
 public class ClimbSubsystem extends SubsystemBase {
-  
+  private DigitalInput climbBeambreak;
+  boolean climbBeambreakvalue;
+  private final SparkMax ClimbMotor;
   private final SparkMax rollerMotor;
   private ClimbSubsystem() {
     Arm.getInstance;
+
+
   }
   @Override
   public void periodic() {
+    //Tthe value of the climb beambreak.
+    this.climbBeambreakvalue = getclimbBeambreakvalue();
+    // If the climb is engaged with the cage, then the motor will stop running. Might change the value the motor is set to later.
+    if(climbBeambreakvalue==true){
+      ClimbMotor.set(0,0);
+    }
+    // Gets the value of the climb beambreak.
+    public boolean getclimbBeambreakvalue() {
+      return this.climbBeambreak.get();
+    }
   }
   /** This is a method that makes the roller spin */
   public void moveArm(double forward, double reverse) {
