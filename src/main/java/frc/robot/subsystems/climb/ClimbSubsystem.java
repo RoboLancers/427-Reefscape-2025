@@ -19,10 +19,10 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 public class ClimbSubsystem extends SubsystemBase {
   
   private final SparkMax climbMotor;
-
+  private final  Arm climbarm;
   private ClimbSubsystem() {
-    Arm.getInstance();
-    climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
+    this.climbarm = Arm.getInstance();
+    this.climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
   }
   @Override
   public void periodic() {
@@ -37,6 +37,7 @@ public class ClimbSubsystem extends SubsystemBase {
    
   /** This is a method that makes the roller spin */
   }
+  
  // public boolean getclimbBeambreakvalue() {
  //   return this.climbBeambreak.get();
   //} 

@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -103,9 +104,9 @@ public class RobotContainer {
       e.printStackTrace();
     }
     
-    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
-    rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
-    algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    //rollerSubsystem.setDefaultCommand(rollerSubsystem.setMechanismVoltage(Volts.of(0)));
+    //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
     // Set up command bindings
     //configureBindings();
     
@@ -145,11 +146,11 @@ public class RobotContainer {
     operatorController.a()
         .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
 
-    operatorController.b()
-        .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
+    //operatorController.b()
+    //    .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
-    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,()->algaeRollerSubsystem ));
-        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,()->algaeRollerSubsystem ));
+    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0, algaeRollerSubsystem ));
+        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44, algaeRollerSubsystem ));
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
@@ -177,7 +178,7 @@ public class RobotContainer {
         ? stream.filter(auto -> auto.getName().startsWith("comp"))
         : stream
     );
-    algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
+    algaeRollerSubsystem.setDefaultCommand( new AlgaeCommand(
         () -> operatorController.getRightTriggerAxis(),
         () -> operatorController.getLeftTriggerAxis(),
         algaeRollerSubsystem));

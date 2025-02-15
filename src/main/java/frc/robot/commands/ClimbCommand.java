@@ -21,7 +21,7 @@ public class ClimbCommand extends Command {
     this.deploy = deploy;
     this.climber = rollerSubsystem;
 
-    addRequirements(this.rollerSubsystem);
+    addRequirements(this.climber);
   }
 
   @Override
@@ -35,7 +35,7 @@ public class ClimbCommand extends Command {
     // deployPosition.get(;
     }
     
-    climber.arm.goToAngle(this.angle);
+    climber.climbarm.goToAngle(this.angle);
   }
 
   // Runs each time the command ends via isFinished or being interrupted.
