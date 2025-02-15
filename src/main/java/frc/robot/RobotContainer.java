@@ -151,6 +151,8 @@ public class RobotContainer {
 
     driverController.x().toggleOnTrue(new ClimbCommand(true, climbSubsystem));
 
+    driverController.y().toggleOnTrue(new ClimbCommand(false, climbSubsystem));
+
     driverController.leftTrigger().whileTrue(new AlgaeCommand(() -> 0.44, () -> 0, algaeRollerSubsystem));
 
     driverController.rightTrigger().whileTrue(new AlgaeCommand(() -> 0, () -> 0.44, algaeRollerSubsystem));
