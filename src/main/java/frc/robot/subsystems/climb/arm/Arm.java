@@ -29,7 +29,7 @@ public class Arm extends SubsystemBase {
     }
     
     // Define and initiate variables for arm
-    private double m_targetPosition = Constants.ClimbConstants.kTravelPosition;
+    private double m_targetPosition = Constants.ClimbConstants.startingPosition;
     private double m_manualVelocity = 0;
 
     private DigitalInput m_limitSwitch = new DigitalInput(Constants.ClimbConstants.kLimitSwitchId);
@@ -166,7 +166,8 @@ public class Arm extends SubsystemBase {
         if (m_targetPosition == Constants.ClimbConstants.kGroundPosition) {
             return ArmControlState.GROUND;
         }
-        else if (m_targetPosition == Constants.ClimbConstants.kTravelPosition) {
+        else if (m_targetPosition == Constants.ClimbConstants.startingPosition
+) {
             return ArmControlState.TRAVEL;
         }
         

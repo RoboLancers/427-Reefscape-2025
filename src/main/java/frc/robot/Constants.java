@@ -24,13 +24,13 @@ import edu.wpi.first.math.geometry.Translation3d;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final int LEFT_LEADER_ID = 1;
-    public static final int LEFT_FOLLOWER_ID = 2;
-    public static final int RIGHT_LEADER_ID = 3;
-    public static final int RIGHT_FOLLOWER_ID = 4;
+  // public static final int LEFT_LEADER_ID = 1;
+  // public static final int LEFT_FOLLOWER_ID = 2;
+  // public static final int RIGHT_LEADER_ID = 3;
+  // public static final int RIGHT_FOLLOWER_ID = 4;
     public static final double maxSpeed = 4;
     public static final double maxAngularSpeed = 2;
-    public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
+   //public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
   }
 
   public static final class RollerConstants {
@@ -40,20 +40,20 @@ public final class Constants {
     public static final double ROLLER_EJECT_VALUE = 0.44;
   }
 
-  public static final class OperatorConstants {
+    public static final class OperatorConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;
   }
 
-  public static final class VisionConstants {
+    public static final class VisionConstants {
     public static final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
-  public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
+    public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
   }
 
  public static final class ClimbConstants {
     public static final int CLIMB_MOTOR_ID=9;
-    public static final int ClimbGearRatio=100;
-    public static final int EncoaderConstant=42; 
+    // public static final int ClimbGearRatio=100;
+    // public static final int EncoaderConstant=42; 
     public static final double kS=0; // the 
     public static final double kA=0; // the acceleration
     public static final double kV=0; // the velocity applied
@@ -69,19 +69,18 @@ public final class Constants {
     public static final double kP=0;
     public static final double kI=0;
     public static final double kD=0;
-    public static final double kTravelPosition=0;
+    public static final double startingPosition=0;
     public static final int kLimitSwitchId=0;
     public static final int kArmMotorLeftId=0;
     public static final double kTolerance=0;
     public static final double kGroundPosition=0;
-    public static final int startingPosition=0;
     public static final double deployPosition=90;
     public static final double climbPosition=210;
 
  }
  public static final class AlgaeConstants {
     public static final int INTAKE_MOTOR_ID=6;
-   public static final int AlgaeGearRatio=100; //Find out the actual value later
+    public static final int AlgaeGearRatio=100; //Find out the actual value later
     public static final int EncoaderConstant=42; 
     public static final double kS=0; // the 
     public static final double kA=0; // the acceleration
@@ -89,17 +88,17 @@ public final class Constants {
     public static final double kG=9.92; // the counter gravity. Find out the actual value later.
     public static final float kForwardSoftLimit=0;
     public static final float kReverseSoftLimit=180;
-    public static final double kAbsPositionConversionFactor=360;
-    public static final double kRelativePositionConversionFactor=360;
-    public static final int kMotorCurrentLimit=0;
-    public static final boolean kLeftMotorInverted=true;
+    // public static final double kAbsPositionConversionFactor=360;
+    // public static final double kRelativePositionConversionFactor=360;
+    // public static final int kMotorCurrentLimit=0;
+    // public static final boolean kLeftMotorInverted=true;
     public static final double kP=0;
     public static final double kI=0;
     public static final double kD=0;
-    public static final double kTravelPosition=0;
-    public static final int kLimitSwitchId=0;
-    public static final int kArmMotorLeftId=0;
-    public static final double kTolerance=0;
-    public static final double kGroundPosition=0;
+    // public static final double startingPosition=0;
+    // public static final int kLimitSwitchId=0;
+    // public static final int kArmMotorLeftId=0;
+    // public static final double kTolerance=0;
+    // public static final double kGroundPosition=0;
  }
 }
