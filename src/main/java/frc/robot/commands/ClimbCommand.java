@@ -10,14 +10,12 @@ import java.util.function.DoubleSupplier;
 
 // Command to run the roller with joystick inputs
 public class ClimbCommand extends Command {
-  private final double angle;
   private final boolean deploy;
   // private final CANRollerSubsystem rollerSubsystem;
   private final ClimbSubsystem climber;
 
   public ClimbCommand(
-      double angle, boolean deploy, ClimbSubsystem rollerSubsystem) {
-    this.angle = angle;
+      boolean deploy, ClimbSubsystem rollerSubsystem) {
     this.deploy = deploy;
     this.climber = rollerSubsystem;
 
@@ -32,10 +30,12 @@ public class ClimbCommand extends Command {
   @Override
   public void execute() {
     if (deploy==true){
+    climber.goToDeploy();
     // deployPosition.get(;
     }
-    
-    climber.climbarm.goToAngle(this.angle);
+    else{
+   climber.goToClimb();
+    }
   }
 
   // Runs each time the command ends via isFinished or being interrupted.

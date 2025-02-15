@@ -19,10 +19,16 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 public class ClimbSubsystem extends SubsystemBase {
   
   private final SparkMax climbMotor;
-  private final  Arm climbarm;
+  public final  Arm climbarm;
   private ClimbSubsystem() {
     this.climbarm = Arm.getInstance();
     this.climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
+  }
+  public void goToDeploy(){
+    climbarm.goToAngle(ClimbConstants.deployPosition);
+  }
+  public void goToClimb(){
+    climbarm.goToAngle(ClimbConstants.climbPosition);
   }
   @Override
   public void periodic() {
