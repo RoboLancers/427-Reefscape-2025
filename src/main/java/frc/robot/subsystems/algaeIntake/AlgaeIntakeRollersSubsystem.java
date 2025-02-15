@@ -84,7 +84,7 @@ public class AlgaeIntakeRollersSubsystem extends SubsystemBase {
      if (beambreakvalue == true){
       rollerMotor.set(0,0);
      }
-
+  }
   /** This is a method that makes the roller spin */
   public void runRoller(double forward, double reverse){
     IntakeMotor.set(forward - reverse);
@@ -118,5 +118,6 @@ public class AlgaeIntakeRollersSubsystem extends SubsystemBase {
   public int beambreakgetPortHandleForRouting(){
     return this.beambreak.getPortHandleForRouting();
   }
+  
 }
   

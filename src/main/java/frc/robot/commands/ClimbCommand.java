@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsytems.climb.ClimbSubsystem;
+import frc.robot.subsystems.climb.ClimbSubsystem;
 import java.util.function.DoubleSupplier;
 
 // Command to run the roller with joystick inputs
@@ -16,7 +16,7 @@ public class ClimbCommand extends Command {
   private final ClimbSubsystem climber;
 
   public ClimbCommand(
-      double angle, double deploy, ClimbSubsystem rollerSubsystem) {
+      double angle, boolean deploy, ClimbSubsystem rollerSubsystem) {
     this.angle = angle;
     this.deploy = deploy;
     this.climber = rollerSubsystem;
@@ -34,11 +34,8 @@ public class ClimbCommand extends Command {
     if (deploy==true){
     // deployPosition.get(;
     }
-    if (angle==true){
-      climbPosition.get();
-    }
-
-    climber.arm.goToAngle();
+    
+    climber.arm.goToAngle(this.angle);
   }
 
   // Runs each time the command ends via isFinished or being interrupted.
