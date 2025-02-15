@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -33,6 +34,7 @@ import frc.robot.commands.AlgaeCommand;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.RollerCommand;
 import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
+import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.Constants.RollerConstants;
 
 /**
@@ -50,6 +52,7 @@ public class RobotContainer {
   
 
   private final AlgaeIntakeRollersSubsystem algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   private final CommandXboxController driverController = new CommandXboxController(
       OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -104,9 +107,9 @@ public class RobotContainer {
       e.printStackTrace();
     }
     
-    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
-    rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
-    algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    //rollerSubsystem.setDefaultCommand(rollerSubsystem.setMechanismVoltage(Volts.of(0)));
+    //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
     // Set up command bindings
     //configureBindings();
     
@@ -146,7 +149,7 @@ public class RobotContainer {
     
     driverController.b().whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
 
-    driverController.x().toggleOnTrue(new ClimbCommand(0, true, null));
+    driverController.x().toggleOnTrue(new ClimbCommand(true, climbSubsystem));
 
     driverController.leftTrigger().whileTrue(new AlgaeCommand(() -> 0.44, () -> 0, algaeRollerSubsystem));
 
@@ -179,7 +182,7 @@ public class RobotContainer {
         ? stream.filter(auto -> auto.getName().startsWith("comp"))
         : stream
     );
-    algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
+    algaeRollerSubsystem.setDefaultCommand( new AlgaeCommand(
         () -> operatorController.getRightTriggerAxis(),
         () -> operatorController.getLeftTriggerAxis(),
         algaeRollerSubsystem));

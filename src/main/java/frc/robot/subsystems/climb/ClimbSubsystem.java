@@ -24,52 +24,32 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 /** Class to run the rollers over CAN */
 public class ClimbSubsystem extends SubsystemBase {
   
-  private final Arm climbArm;
   private final SparkMax climbMotor;
-  private final AbsoluteEncoder climbEncoder;
-  private final PIDController climbPID;
-  SparkMaxConfig climbConfig;
-
-  private ClimbSubsystem() {
-    climbArm = Arm.getInstance();
-    climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
-    climbEncoder = climbMotor.getAbsoluteEncoder();
-    climbPID = new PIDController(Constants.ClimbConstants.kP, Constants.ClimbConstants.kI, Constants.ClimbConstants.kD);
-
-    configMotor();
-    configEncoder();
-    configController();
+  public Arm climbArm = Arm.getInstance();
+  public ClimbSubsystem() {
+    this.climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
   }
-
-  private void configMotor() {
-    this.climbConfig = new SparkMaxConfig();
-    this.climbConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
-    this.climbConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
-    this.climbMotor.configure(climbConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  public void goToDeploy(){
+    climbArm.goToAngle(ClimbConstants.deployPosition);
   }
-
-  private void configEncoder() {
-
+  public void goToClimb(){
+    climbArm.goToAngle(ClimbConstants.climbPosition);
   }
-
-  private void configController() {
-  }
-
   @Override
   public void periodic() {
     //Tthe value of the climb beambreak.
-    this.climbBeambreakvalue = getclimbBeambreakvalue();
+    //this.climbBeambreakvalue = getclimbBeambreakvalue();
     // If the climb is engaged with the cage, then the motor will stop running. Might change the value the motor is set to later.
-    if(climbBeambreakvalue==true){
-      ClimbMotor.set(0,0);
-    }
+    //if(climbBeambreakvalue==true){
+    //  ClimbMotor.set(0,0);
+    //}
+    
     // Gets the value of the climb beambreak.
-
-    public boolean getclimbBeambreakvalue() {
-      return this.climbBeambreak.get();
-    }
-
+   
   /** This is a method that makes the roller spin */
-  public void moveArm(double forward, double reverse) {
   }
+  
+ // public boolean getclimbBeambreakvalue() {
+ //   return this.climbBeambreak.get();
+  //} 
 }
