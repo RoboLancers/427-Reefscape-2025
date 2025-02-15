@@ -31,8 +31,10 @@ import frc.robot.subsystems.Vision.VisionSubsystem;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.AlgaeCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.RollerCommand;
 import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
+import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.Constants.RollerConstants;
 
 /**
@@ -50,6 +52,7 @@ public class RobotContainer {
   
 
   private final AlgaeIntakeRollersSubsystem algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   private final CommandXboxController driverController = new CommandXboxController(
       OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -129,12 +132,11 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    driverController.a().whileTrue(driveSubsystem.tune(
+    /* driverController.a().whileTrue(driveSubsystem.tune(
       () -> driverController.getLeftX(), 
       () -> driverController.getLeftY(),
       () -> driverController.getRightX()
-      )
-      );
+      )); */
 
     if(RobotBase.isSimulation()){
       driveSubsystem.resetPose(new Pose2d(2,2,new Rotation2d()));
@@ -143,14 +145,18 @@ public class RobotContainer {
     // value ejecting the gamepiece while the button is held
 
     // befo
-    operatorController.a()
-        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-
-    //operatorController.b()
-    //    .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
+    driverController.a().whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     
-    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0, algaeRollerSubsystem ));
-        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44, algaeRollerSubsystem ));
+    driverController.b().whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
+
+    driverController.x().toggleOnTrue(new ClimbCommand(true, climbSubsystem));
+
+    driverController.y().toggleOnTrue(new ClimbCommand(false, climbSubsystem));
+
+    driverController.leftTrigger().whileTrue(new AlgaeCommand(() -> 0.44, () -> 0, algaeRollerSubsystem));
+
+    driverController.rightTrigger().whileTrue(new AlgaeCommand(() -> 0, () -> 0.44, algaeRollerSubsystem));
+
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the

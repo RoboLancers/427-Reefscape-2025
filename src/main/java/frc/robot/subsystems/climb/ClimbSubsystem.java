@@ -4,31 +4,36 @@
 
 package frc.robot.subsystems.climb;
 
-import frc.robot.subsystems.climb.arm.Arm;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.PIDController;
+
+import frc.robot.subsystems.climb.arm.Arm;
+import frc.robot.Constants.ClimbConstants;
+import frc.robot.Constants;
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.RollerConstants;
-import frc.robot.Constants.ClimbConstants;
+
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkMaxConfig;
 
 /** Class to run the rollers over CAN */
 public class ClimbSubsystem extends SubsystemBase {
   
   private final SparkMax climbMotor;
-  public final  Arm climbarm;
-  private ClimbSubsystem() {
-    this.climbarm = Arm.getInstance();
+  public Arm climbArm = Arm.getInstance();
+  public ClimbSubsystem() {
     this.climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
   }
   public void goToDeploy(){
-    climbarm.goToAngle(ClimbConstants.deployPosition);
+    climbArm.goToAngle(ClimbConstants.deployPosition);
   }
   public void goToClimb(){
-    climbarm.goToAngle(ClimbConstants.climbPosition);
+    climbArm.goToAngle(ClimbConstants.climbPosition);
   }
   @Override
   public void periodic() {
