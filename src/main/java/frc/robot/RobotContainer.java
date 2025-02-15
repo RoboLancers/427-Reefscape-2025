@@ -132,12 +132,12 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    driverController.a().whileTrue(driveSubsystem.tune(
+    /* driverController.a().whileTrue(driveSubsystem.tune(
       () -> driverController.getLeftX(), 
       () -> driverController.getLeftY(),
       () -> driverController.getRightX()
       )
-      );
+      ); */
 
     if(RobotBase.isSimulation()){
       driveSubsystem.resetPose(new Pose2d(2,2,new Rotation2d()));
@@ -146,14 +146,14 @@ public class RobotContainer {
     // value ejecting the gamepiece while the button is held
 
     // befo
-    operatorController.a()
+    driverController.a()
         .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
 
-    operatorController.b()
+    driverController.b()
         .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
-    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,algaeRollerSubsystem ));
-        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,algaeRollerSubsystem ));
+    driverController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,algaeRollerSubsystem ));
+        driverController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,algaeRollerSubsystem ));
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
