@@ -75,8 +75,8 @@ public final class Constants {
     public static final double kTolerance=0;
     public static final double kGroundPosition=0;
     public static final int startingPosition=0;
-    public static final double deployPosition=0;
-    public static final double climbPosition=0;
+    public static final double deployPosition=90;
+    public static final double climbPosition=210;
 
  }
  public static final class AlgaeConstants {
