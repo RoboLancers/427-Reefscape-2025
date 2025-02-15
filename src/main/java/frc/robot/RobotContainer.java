@@ -96,20 +96,16 @@ public class RobotContainer {
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
 
-    // try {
-    //   driveSubsystem = new DriveSubsystem();
-    // } catch (IOException e) {
+     try {
+       driveSubsystem = new DriveSubsystem();
+     } catch (IOException e) {
 
-      // e.printStackTrace();
-    // }
-
-    // // Set up command bindings
-    // configureBindings();
+      e.printStackTrace();
+    }
     
-
-    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
-    //rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
-    //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
+    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+    algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
     // Set up command bindings
     //configureBindings();
     
@@ -181,14 +177,11 @@ public class RobotContainer {
         ? stream.filter(auto -> auto.getName().startsWith("comp"))
         : stream
     );
-    //algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
-    //    () -> operatorController.getRightTriggerAxis(),
-    //    () -> operatorController.getLeftTriggerAxis(),
-    //    algaeRollerSubsystem));
-    //    )
- 
-
-
+    algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
+        () -> operatorController.getRightTriggerAxis(),
+        () -> operatorController.getLeftTriggerAxis(),
+        algaeRollerSubsystem));
+        
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
   }
@@ -206,9 +199,9 @@ public class RobotContainer {
 
       // Create a path following command using AutoBuilder. This will also trigger event markers.
       return AutoBuilder.followPath(path);
-  } catch (Exception e) {
-      DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
-      return Commands.none();
-    }
+    } catch (Exception e) {
+        DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+        return Commands.none();
+      }
   }
 }
