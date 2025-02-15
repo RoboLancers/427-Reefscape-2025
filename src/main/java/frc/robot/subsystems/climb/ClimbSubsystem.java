@@ -43,10 +43,13 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private void configMotor() {
     this.climbConfig = new SparkMaxConfig();
-    
+    this.climbConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
+    this.climbConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
+    this.climbMotor.configure(climbConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   private void configEncoder() {
+    t
   }
 
   private void configController() {
