@@ -49,7 +49,7 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   private void configEncoder() {
-    t
+
   }
 
   private void configController() {
