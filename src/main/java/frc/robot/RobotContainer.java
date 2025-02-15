@@ -96,20 +96,16 @@ public class RobotContainer {
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
 
-    // try {
-    //   driveSubsystem = new DriveSubsystem();
-    // } catch (IOException e) {
+     try {
+       driveSubsystem = new DriveSubsystem();
+     } catch (IOException e) {
 
-      // e.printStackTrace();
-    // }
-
-    // // Set up command bindings
-    // configureBindings();
+      e.printStackTrace();
+    }
     
-
-    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
-    //rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
-    //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
+    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+    algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
     // Set up command bindings
     //configureBindings();
     
@@ -152,8 +148,8 @@ public class RobotContainer {
     operatorController.b()
         .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
-    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,algaeRollerSubsystem ));
-        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,algaeRollerSubsystem ));
+    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,()->algaeRollerSubsystem ));
+        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,()->algaeRollerSubsystem ));
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
@@ -181,14 +177,11 @@ public class RobotContainer {
         ? stream.filter(auto -> auto.getName().startsWith("comp"))
         : stream
     );
-    //algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
-    //    () -> operatorController.getRightTriggerAxis(),
-    //    () -> operatorController.getLeftTriggerAxis(),
-    //    algaeRollerSubsystem));
-    //    )
- 
-
-
+    algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
+        () -> operatorController.getRightTriggerAxis(),
+        () -> operatorController.getLeftTriggerAxis(),
+        algaeRollerSubsystem));
+        
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
   }
@@ -206,9 +199,9 @@ public class RobotContainer {
 
       // Create a path following command using AutoBuilder. This will also trigger event markers.
       return AutoBuilder.followPath(path);
-  } catch (Exception e) {
-      DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
-      return Commands.none();
-    }
+    } catch (Exception e) {
+        DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+        return Commands.none();
+      }
   }
 }

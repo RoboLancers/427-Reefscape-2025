@@ -74,6 +74,10 @@ public final class Constants {
     public static final int kArmMotorLeftId=0;
     public static final double kTolerance=0;
     public static final double kGroundPosition=0;
+    public static final int startingPosition=0;
+    public static final double deployPosition=0;
+    public static final double climbPosition=0;
+
  }
  public static final class AlgaeConstants {
     public static final int INTAKE_MOTOR_ID=6;
