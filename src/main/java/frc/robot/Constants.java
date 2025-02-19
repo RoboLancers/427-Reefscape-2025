@@ -51,6 +51,7 @@ public final class Constants {
   }
 
  public static final class ClimbConstants {
+    public static final int CLIMB_MOTOR_ID=9;
     public static final int ClimbGearRatio=100;
     public static final int EncoaderConstant=42; 
     public static final double kS=0; // the 
@@ -60,7 +61,9 @@ public final class Constants {
     public static final float kForwardSoftLimit=0;
     public static final float kReverseSoftLimit=180;
     public static final double kAbsPositionConversionFactor=360;
+    public static final double kAbsVelocityConversionFactor=0;
     public static final double kRelativePositionConversionFactor=360;
+    public static final double kRelativeVelocityConversionFactor=360;
     public static final int kMotorCurrentLimit=0;
     public static final boolean kLeftMotorInverted=true;
     public static final double kP=0;
@@ -73,6 +76,7 @@ public final class Constants {
     public static final double kGroundPosition=0;
  }
  public static final class AlgaeConstants {
+    public static final int INTAKE_MOTOR_ID=6;
    public static final int AlgaeGearRatio=100; //Find out the actual value later
     public static final int EncoaderConstant=42; 
     public static final double kS=0; // the 

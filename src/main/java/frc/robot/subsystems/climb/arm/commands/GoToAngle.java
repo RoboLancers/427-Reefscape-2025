@@ -1,8 +1,8 @@
-package frc.robot.subsystems.Climb.arm.commands;
+package frc.robot.subsystems.climb.arm.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Climb.arm.Arm;
-import frc.robot.subsystems.Climb.arm.Arm.ArmControlType;
+import frc.robot.subsystems.climb.arm.Arm;
+import frc.robot.subsystems.climb.arm.Arm.ArmControlType;
 
 // controlled by pid 
 public class GoToAngle extends Command {
