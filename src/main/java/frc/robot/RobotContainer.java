@@ -26,6 +26,8 @@ import frc.robot.subsystems.Vision.VisionSubsystem;
 
 
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.commands.AlgaeCommand;
+import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollers;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -40,6 +42,9 @@ public class RobotContainer {
 
   private final Field2d field;
   
+
+  private final AlgaeIntakeRollers algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
+
   private final CommandXboxController driverController = new CommandXboxController(
       OperatorConstants.DRIVER_CONTROLLER_PORT);
 
@@ -122,8 +127,16 @@ public class RobotContainer {
     //   );
     // Set the A button to run the "RollerCommand" command with a fixed
     // value ejecting the gamepiece while the button is held
-    System.out.println(driveSubsystem.getRobotRelativeSpeeds());
 
+    // befo
+    operatorController.a()
+        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+
+    operatorController.b()
+        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
+    
+    operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,()->algaeRollerSubsystem );
+        operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,()->algaeRollerSubsystem );
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the

@@ -1,5 +1,6 @@
 {
 
+
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
       "postCreateCommand": "cd /home/vscode && wget 'https://github.com/wpilibsuite/vscode-wpilib/releases/download/v2025.2.1/vscode-wpilib-2025.2.1.vsix'",
      "features": {
@@ -13,6 +14,7 @@
 			"webPort": "6080",
 			"vncPort": "5901"
 		}
+
     },
   "runArgs": ["--shm-size=1g"],
   "forwardPorts": [6080, 5901],
