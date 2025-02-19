@@ -84,10 +84,10 @@ public class DriveSubsystem extends SubsystemBase{
     }
 
 
-    }
-    public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX)
-    {
-      return run(() -> {
+  public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX) {
+    return run(() -> {
+      System.out.println(translationX.getAsDouble()); 
+
         // Make the robot move
         swerveDrive.drive(new Translation2d(translationX.getAsDouble() * DriveConstants.maxSpeed,
                                             translationY.getAsDouble() * DriveConstants.maxSpeed),

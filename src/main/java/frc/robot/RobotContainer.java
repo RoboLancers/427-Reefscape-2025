@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
+//import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
 import frc.robot.subsystems.Vision.VisionSubsystem;
 
-//import frc.robot.subsystems.DriveSubsystem;
+
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.AlgaeCommand;
@@ -56,14 +56,14 @@ public class RobotContainer {
         OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
       public DriveSubsystem driveSubsystem;
+
       public CANRollerSubsystem rollerSubsystem;
-
        public VisionSubsystem visionSubsystem = new VisionSubsystem();
-  private SendableChooser<Command> autoChooser = new SendableChooser<>();
+      private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  
+   //The container for the robot. Contains subsystems, OI devices, and commands.
+   
   public RobotContainer() {
     // Set up command bindings
 
@@ -72,48 +72,50 @@ public class RobotContainer {
 
 
     // Logging callback for current robot pose
-      PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
-          // Do whatever you want with the pose here
-          field.setRobotPose(pose);
-      });
+      // PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
+      //     // Do whatever you want with the pose here
+      //     field.setRobotPose(pose);
+      // });
 
 
       // Logging callback for target robot pose
-      PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
-          // Do whatever you want with the pose here
-          field.getObject("target pose").setPose(pose);
-      });
+      // PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+      //     // Do whatever you want with the pose here
+      //     field.getObject("target pose").setPose(pose);
+      // });
 
 
       // Logging callback for the active path, this is sent as a list of poses
-      PathPlannerLogging.setLogActivePathCallback((poses) -> {
-          // Do whatever you want with the poses here
-          field.getObject("path").setPoses(poses);
-      });
+      // PathPlannerLogging.setLogActivePathCallback((poses) -> {
+      //     // Do whatever you want with the poses here
+      //     field.getObject("path").setPoses(poses);
+      // });
+   
 
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
-    // autoChooser.addOption
+    //autoChooser.addOption
 
-    // try {
-    //   driveSubsystem = new DriveSubsystem();
-    // } catch (IOException e) {
+    try {
+      driveSubsystem = new DriveSubsystem();
+    } catch (IOException e) {
 
-      // e.printStackTrace();
-    // }
+      e.printStackTrace();
+    }
 
     // // Set up command bindings
-    // configureBindings();
-    
 
-    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    configureBindings();
+    
+ 
     //rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
     //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
     // Set up command bindings
     //configureBindings();
     
     //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+
   }
 
   /**
@@ -161,54 +163,56 @@ public class RobotContainer {
     // value). Similarly for the X axis where we need to flip the value so the
     // joystick matches the WPILib convention of counter-clockwise positive
 
-    //translationx and translatioin y to left joystick 
+    // translationx and translation y to left joystick 
     // angular rotaiton to right x joystick
-    // driveSubsystem.setDefaultCommand(
-    //   driveSubsystem.driveCommand( 
-    //     () -> driverController.getLeftX(), 
-    //     () -> driverController.getLeftY(),
-    //     () -> driverController.getRightX()
-    //     )
-    //     );
+    driveSubsystem.setDefaultCommand(
+      driveSubsystem.driveCommand( 
+        () -> driverController.getLeftX(), 
+        () -> driverController.getLeftY(), 
+        () -> driverController.getRightX()
+        )
+        );
 
         boolean isCompetition = true;
 
 
-        autoChooser = AutoBuilder.buildAutoChooser("CoralThenStation");
+        //autoChooser = AutoBuilder.buildAutoChooser("CoralThenStation");
  
-      autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
-      (stream) -> isCompetition
-        ? stream.filter(auto -> auto.getName().startsWith("comp"))
-        : stream
-    );
-    //algaeRollerSubsystem.setDefaultCommand( new RollerCommand(
-    //    () -> operatorController.getRightTriggerAxis(),
-    //    () -> operatorController.getLeftTriggerAxis(),
-    //    algaeRollerSubsystem));
-    //    )
+
+      //autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
+    //   (stream) -> isCompetition
+    //     ? stream.filter(auto -> auto.getName().startsWith("comp"))
+    //     : stream
+    // );
+
  
 
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
   }
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
+  
+   // Use this to pass the autonomous command to the main {@link Robot} class.
+   
+   // @return the command to run in autonomous
+   
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     try{
       // Load the path you want to follow using its name in the GUI
-      PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+    PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+      return autoChooser.getSelected();
 
 
       // Create a path following command using AutoBuilder. This will also trigger event markers.
-      return AutoBuilder.followPath(path);
+      
+    //return AutoBuilder.followPath(path);
   } catch (Exception e) {
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
       return Commands.none();
     }
+    
   }
 }
+  
+
