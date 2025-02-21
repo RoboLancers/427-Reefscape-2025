@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -167,9 +168,9 @@ public class RobotContainer {
     // angular rotaiton to right x joystick
     driveSubsystem.setDefaultCommand(
       driveSubsystem.driveCommand( 
-        () -> driverController.getLeftX(), 
-        () -> driverController.getLeftY(), 
-        () -> driverController.getRightX()
+        () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.05), 
+        () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.05),
+        () -> MathUtil.applyDeadband(driverController.getRightX(),0.05)
         )
         );
 
