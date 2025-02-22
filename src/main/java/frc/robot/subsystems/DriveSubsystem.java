@@ -36,7 +36,9 @@ public class DriveSubsystem extends SubsystemBase{
     public DriveSubsystem() throws IOException{
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
         swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(DriveConstants.maxSpeed);
-        swerveDrive.setHeadingCorrection(true);
+        swerveDrive.setHeadingCorrection(false);
+        swerveDrive.setCosineCompensator(false);
+        swerveDrive.setModuleEncoderAutoSynchronize(false, 0);
         swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.maxAngularSpeed);
         try{
             config = RobotConfig.fromGUISettings();

@@ -135,7 +135,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    driverController.a().whileTrue(driveSubsystem.tune(
+    driverController.b().whileTrue(driveSubsystem.tune(
       () -> driverController.getLeftX(), 
       () -> driverController.getLeftY(),
       () -> driverController.getRightX()
@@ -151,7 +151,6 @@ public class RobotContainer {
     // befo
     operatorController.a()
         .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-
     //operatorController.b()
     //    .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
@@ -168,9 +167,9 @@ public class RobotContainer {
     // angular rotaiton to right x joystick
     driveSubsystem.setDefaultCommand(
       driveSubsystem.driveCommand( 
-        () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.05), 
+        () -> -MathUtil.applyDeadband(driverController.getLeftY(), 0.05), 
         () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.05),
-        () -> MathUtil.applyDeadband(driverController.getRightX(),0.05)
+        () -> -MathUtil.applyDeadband(driverController.getRightX(), 0.05)
         )
         );
 
