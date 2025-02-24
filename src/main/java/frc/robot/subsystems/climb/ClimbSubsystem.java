@@ -20,36 +20,68 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.units.measure.Distance;
 
 /** Class to run the rollers over CAN */
 public class ClimbSubsystem extends SubsystemBase {
-  
-  private final SparkMax climbMotor;
-  public Arm climbArm = Arm.getInstance();
+  //Create here :)
+  private DigitalInput climbBeamBreak;
+  private boolean climbBeamBreakValue;
+  private double targetPosition = 0;
+  private climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
+  private PIDController m_armPIDController = new PIDController(Constants.ClimbConstants.kP, Constants.ClimbConstants.kI, Constants.ClimbConstants.kD);
+
+
+
   public ClimbSubsystem() {
-    this.climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
+    public void setupSpark() {
+      SparkMaxConfig config = new SparkMaxConfig();
+  ;
+      config.idleMode(IdleMode.kBrake);
+  
+      config.inverted(Constants.ClimbConstants.kLeftMotorInverted);
+      
+      config.smartCurrentLimit(Constants.ClimbConstants.kMotorCurrentLimit);
+      
+      // right arm motor would follow left arm motor's voltage 
+      config.encoder.positionConversionFactor(Constants.ClimbConstants.kAbsPositionConversionFactor);
+      config.encoder.velocityConversionFactor(Constants.ClimbConstants.kAbsVelocityConversionFactor);
+      config.encoder.positionConversionFactor(Constants.ClimbConstants.kRelativePositionConversionFactor); 
+      config.encoder.velocityConversionFactor(Constants.ClimbConstants.kRelativeVelocityConversionFactor); 
+  
+  }
+  
+  public void setupControllers() {
+    // Traposition error on which it is tolerable
+   // m_armPIDController.setTolerance(Constants.ClimbConstants.kTolerance);
+  }
   }
   public void goToDeploy(){
-    climbArm.goToAngle(ClimbConstants.deployPosition);
+      goToAngle(ClimbConstants.deployPosition);
   }
   public void goToClimb(){
-    climbArm.goToAngle(ClimbConstants.climbPosition);
+      goToAngle(ClimbConstants.climbPosition);
   }
+  public void goToAngle(Angle angle){
+    this.targetPosition = angle.in(Degrees);
+  }
+
+  
   @Override
   public void periodic() {
-    //Tthe value of the climb beambreak.
-    //this.climbBeambreakvalue = getclimbBeambreakvalue();
+    //The value of the climb beambreak.
+    climbBeambreakvalue = getclimbBeambreakvalue();
     // If the climb is engaged with the cage, then the motor will stop running. Might change the value the motor is set to later.
-    //if(climbBeambreakvalue==true){
-    //  ClimbMotor.set(0,0);
-    //}
+    if(climbBeambreakvalue==true){
+      ClimbMotor.set(0,0);
+    }
     
     // Gets the value of the climb beambreak.
    
-  /** This is a method that makes the roller spin */
   }
   
- // public boolean getclimbBeambreakvalue() {
- //   return this.climbBeambreak.get();
-  //} 
+  public boolean getclimbBeambreakvalue() {
+    return climbBeambreak.get();
+  } 
 }
