@@ -5,9 +5,9 @@
 package frc.robot.subsystems.climb;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 
-import frc.robot.subsystems.climb.arm.Arm;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants;
 import frc.robot.Constants.AlgaeConstants;
@@ -15,73 +15,80 @@ import frc.robot.Constants.RollerConstants;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import static edu.wpi.first.units.Units.Degrees;
+
+import java.io.Console;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.Distance;
 
-/** Class to run the rollers over CAN */
 public class ClimbSubsystem extends SubsystemBase {
   //Create here :)
   private DigitalInput climbBeamBreak;
   private boolean climbBeamBreakValue;
   private double targetPosition = 0;
-  private climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
-  private PIDController m_armPIDController = new PIDController(Constants.ClimbConstants.kP, Constants.ClimbConstants.kI, Constants.ClimbConstants.kD);
-
+  private SparkMax climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
+  private PIDController climbPIDController = new PIDController(Constants.ClimbConstants.kP, Constants.ClimbConstants.kI, Constants.ClimbConstants.kD);
+  private SparkAbsoluteEncoder encoder = climbMotor.getAbsoluteEncoder();
+  private ArmFeedforward feedforward = new ArmFeedforward(Constants.ClimbConstants.kS, Constants.ClimbConstants.kG, Constants.ClimbConstants.kV);
 
 
   public ClimbSubsystem() {
-    public void setupSpark() {
-      SparkMaxConfig config = new SparkMaxConfig();
-  ;
-      config.idleMode(IdleMode.kBrake);
-  
-      config.inverted(Constants.ClimbConstants.kLeftMotorInverted);
-      
-      config.smartCurrentLimit(Constants.ClimbConstants.kMotorCurrentLimit);
-      
-      // right arm motor would follow left arm motor's voltage 
-      config.encoder.positionConversionFactor(Constants.ClimbConstants.kAbsPositionConversionFactor);
-      config.encoder.velocityConversionFactor(Constants.ClimbConstants.kAbsVelocityConversionFactor);
-      config.encoder.positionConversionFactor(Constants.ClimbConstants.kRelativePositionConversionFactor); 
-      config.encoder.velocityConversionFactor(Constants.ClimbConstants.kRelativeVelocityConversionFactor); 
-  
+    setupSpark();
   }
-  
-  public void setupControllers() {
-    // Traposition error on which it is tolerable
-   // m_armPIDController.setTolerance(Constants.ClimbConstants.kTolerance);
-  }
-  }
-  public void goToDeploy(){
-      goToAngle(ClimbConstants.deployPosition);
-  }
-  public void goToClimb(){
-      goToAngle(ClimbConstants.climbPosition);
-  }
-  public void goToAngle(Angle angle){
-    this.targetPosition = angle.in(Degrees);
-  }
+  //Configures motors and encoders
+  public void setupSpark() {
+    SparkMaxConfig config = new SparkMaxConfig(); 
+    
+    config.idleMode(IdleMode.kBrake);
 
-  
+    config.inverted(Constants.ClimbConstants.kLeftMotorInverted);
+    
+    config.smartCurrentLimit(Constants.ClimbConstants.kMotorCurrentLimit);
+    
+    config.encoder.positionConversionFactor(Constants.ClimbConstants.kAbsPositionConversionFactor);
+    config.encoder.velocityConversionFactor(Constants.ClimbConstants.kAbsVelocityConversionFactor);
+    config.encoder.positionConversionFactor(Constants.ClimbConstants.kRelativePositionConversionFactor); 
+    config.encoder.velocityConversionFactor(Constants.ClimbConstants.kRelativeVelocityConversionFactor); 
+
+    climbMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  }
   @Override
   public void periodic() {
-    //The value of the climb beambreak.
-    climbBeambreakvalue = getclimbBeambreakvalue();
-    // If the climb is engaged with the cage, then the motor will stop running. Might change the value the motor is set to later.
-    if(climbBeambreakvalue==true){
-      ClimbMotor.set(0,0);
-    }
-    
-    // Gets the value of the climb beambreak.
-   
+    // Gets the desired speed to get to the target position from the current position. 
+    //Feedforward is making sure the arm doesn't fall or move too far back.
+   double velocity = climbPIDController.calculate(getAngle(), targetPosition) + feedforward.calculate(targetPosition, 0);
+   climbMotor.set(velocity);
+
+
   }
-  
+  // Goes to the starting position.
+  public void goToInitial(){
+    goToAngle(ClimbConstants.deployPosition);
+}
+  // Goes to the desired position to climb.
+public void goToClimb(){
+    goToAngle(ClimbConstants.climbPosition);
+}
+  // Changes the target position from the starting postion to the desired position.
+public void goToAngle(Angle angle){
+  this.targetPosition = angle.in(Degrees);
+}
+ // Gets the value of the beambreak
   public boolean getclimbBeambreakvalue() {
-    return climbBeambreak.get();
+    return climbBeamBreak.get();
   } 
+  // Gets the current position.
+  public double getAngle() {
+    return encoder.getPosition();
+  }
 }

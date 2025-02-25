@@ -30,7 +30,7 @@ public class ClimbCommand extends Command {
   @Override
   public void execute() {
     if (deploy==true){
-    climber.goToDeploy();
+    climber.goToInitial();
     // deployPosition.get(;
     }
     else{

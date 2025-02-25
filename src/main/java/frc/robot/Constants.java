@@ -4,11 +4,14 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degree;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.units.measure.Angle;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -58,8 +61,6 @@ public final class Constants {
     public static final double kA=0; // the acceleration
     public static final double kV=0; // the velocity applied
     public static final double kG=9.92; // the counter gravity
-    public static final float kForwardSoftLimit=0;
-    public static final float kReverseSoftLimit=180;
     public static final double kAbsPositionConversionFactor=360;
     public static final double kAbsVelocityConversionFactor=0;
     public static final double kRelativePositionConversionFactor=360;
@@ -73,9 +74,9 @@ public final class Constants {
     public static final int kLimitSwitchId=0;
     public static final int kArmMotorLeftId=0;
     public static final double kTolerance=0;
-    public static final double kGroundPosition=0;
-    public static final double deployPosition=90;
-    public static final double climbPosition=210;
+    public static final Angle kGroundPosition = Degree.of(0);
+    public static final Angle deployPosition= Degree.of(90);
+    public static final Angle climbPosition = Degree.of(210);
 
  }
  public static final class AlgaeConstants {
