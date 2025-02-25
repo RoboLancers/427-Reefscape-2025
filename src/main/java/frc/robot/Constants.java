@@ -77,13 +77,13 @@ public final class Constants {
   }
 
   public static final class AlgaeRemoverConstants {
-    public static final int REMOVER_MOTOR_ID=9;
-    public static final int RemoverGearRatio=100;
+    public static final int REMOVER_MOTOR_ID=13;
+    public static final int RemoverGearRatio=20;
     public static final int EncoderConstant=42; 
     public static final double kS=0; // the 
-    public static final double kA=0; // the acceleration
-    public static final double kV=0; // the velocity applied
-    public static final double kG=9.92; // the counter gravity
+    public static final double kA=0.03; // the acceleration
+    public static final double kV=0.20; // the velocity applied
+    public static final double kG=0.78; // the counter gravity
     public static final float kForwardSoftLimit=0;
     public static final float kReverseSoftLimit=180;
     public static final double kAbsPositionConversionFactor=360;
