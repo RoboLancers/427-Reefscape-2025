@@ -65,10 +65,10 @@ public class ClimbSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Gets the desired speed to get to the target position from the current position. 
-    //Feedforward is making sure the arm doesn't fall or move too far back.
+    // Feedforward is making sure the arm doesn't fall or move too far back.
    double velocity = climbPIDController.calculate(getAngle(), targetPosition) + feedforward.calculate(targetPosition, 0);
    climbMotor.set(velocity);
-
+ 
 
   }
   // Goes to the starting position.

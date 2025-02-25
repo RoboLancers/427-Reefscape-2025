@@ -55,8 +55,8 @@ public final class Constants {
 
  public static final class ClimbConstants {
     public static final int CLIMB_MOTOR_ID=9;
-    // public static final int ClimbGearRatio=100;
-    // public static final int EncoaderConstant=42; 
+    public static final int ClimbGearRatio=100;
+    public static final int EncoaderConstant=42; 
     public static final double kS=0; // the 
     public static final double kA=0; // the acceleration
     public static final double kV=0; // the velocity applied
