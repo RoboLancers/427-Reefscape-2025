@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 
-public class LedSubsystem extends SubsystemBase {
+public class LEDSubsystem extends SubsystemBase {
     private static final int kPort = 0;
     private static final int kLength = 0;
 
@@ -17,7 +17,7 @@ public class LedSubsystem extends SubsystemBase {
     private final AddressableLED m_led = new AddressableLED(9);
     private final AddressableLEDBuffer m_buffer = new AddressableLEDBuffer(63);
 
-    public LedSubsystem() {
+    public LEDSubsystem() {
         LEDPattern red = LEDPattern.solid(Color.kRed); 
     }
 
