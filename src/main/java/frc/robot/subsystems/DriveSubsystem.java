@@ -6,31 +6,39 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import java.io.File;
 import java.io.IOException;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.RobotBase;
 import swervelib.parser.SwerveParser;
 import swervelib.SwerveDrive;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.PIDFConfig;
 import swervelib.SwerveModule;
 
+
 public class DriveSubsystem extends SubsystemBase{
     SwerveDrive swerveDrive;
     RobotConfig config;
+    Pose2d robotPose;
 
     public DriveSubsystem() throws IOException{
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
         swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(DriveConstants.maxSpeed);
+        swerveDrive.setHeadingCorrection(false);
+        swerveDrive.setCosineCompensator(false);
+        swerveDrive.setModuleEncoderAutoSynchronize(false, 0);
         swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.maxAngularSpeed);
         try{
             config = RobotConfig.fromGUISettings();
@@ -39,44 +47,51 @@ public class DriveSubsystem extends SubsystemBase{
             e.printStackTrace();
           }
 
-          AutoBuilder.configure(
-            this::getPose,
-            this::resetPose,
-            this::getRobotRelativeSpeeds,
-            (speeds, feedforwards) -> driveRobotRelative(speeds),
-            new PPHolonomicDriveController(
-              new PIDConstants(5.0, 0.0, 0.0),
-              new PIDConstants(5.0, 0.0, 0.0)
-              ),
-              config,
-              () -> {
-      
-      
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                  return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;
-              },
-                  this
-              );
-            }
+    try {
+      config = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      // Handle exception as needed
+      e.printStackTrace();
+    }
+/* 
+    AutoBuilder.configure(
+      this::getPose,
+      this::resetPose,
+      this::getRobotRelativeSpeeds,
+      (speeds, feedforwards) -> driveRobotRelative(speeds),
+      new PPHolonomicDriveController(
+        new PIDConstants(5.0, 0.0, 0.0),
+        new PIDConstants(5.0, 0.0, 0.0)
+      ),
+      config,
+      () -> {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+      },
+      this
+    );
+*/
+  }
                
-        public Command followPathCommand(String pathName) {
-          try{
-            PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+  public Command followPathCommand(String pathName) {
+    try{
+      PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+      return AutoBuilder.followPath(path);
       
-      
-            return AutoBuilder.followPath(path);
+    } catch (Exception e) {
+      DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
+      return Commands.none();
+    }
+    }
 
-              } catch (Exception e) {
-        DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
-        return Commands.none();
-    }
-    }
-    public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX)
-    {
-      return run(() -> {
+
+  public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX) {
+    return run(() -> {
+      System.out.println(translationX.getAsDouble()); 
+
         // Make the robot move
         swerveDrive.drive(new Translation2d(translationX.getAsDouble() * DriveConstants.maxSpeed,
                                             translationY.getAsDouble() * DriveConstants.maxSpeed),
@@ -134,9 +149,19 @@ public class DriveSubsystem extends SubsystemBase{
         return swerveDrive.getRobotVelocity();
       }
     
-    
       public void driveRobotRelative(ChassisSpeeds speeds) {
         swerveDrive.drive(speeds);
       }
 
+      @Override
+      public void periodic() {
+        // try{
+        //   robotPose = swerveDrive.getSimulationDriveTrainPose().get();
+        //   SmartDashboard.put
+        // } catch NoSuchElementException {
+
+        // }
+        swerveDrive.updateOdometry();
+          
+      }
 }
