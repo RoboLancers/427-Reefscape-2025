@@ -31,7 +31,7 @@ import frc.robot.subsystems.Vision.VisionSubsystem;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.AlgaeCommand;
-import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.GoToInitial;
 import frc.robot.commands.RollerCommand;
 import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
 import frc.robot.subsystems.climb.ClimbSubsystem;
@@ -149,9 +149,9 @@ public class RobotContainer {
     
     driverController.b().whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
 
-    driverController.x().toggleOnTrue(new ClimbCommand(true, climbSubsystem));
+    driverController.x().toggleOnTrue(new GoToInitial(climbSubsystem));
 
-    driverController.y().toggleOnTrue(new ClimbCommand(false, climbSubsystem));
+    driverController.y().toggleOnTrue(new GoToInitial(climbSubsystem));
 
     driverController.leftTrigger().whileTrue(new AlgaeCommand(() -> 0.44, () -> 0, algaeRollerSubsystem));
 

@@ -41,13 +41,15 @@ public class ClimbSubsystem extends SubsystemBase {
   private SparkAbsoluteEncoder encoder = climbMotor.getAbsoluteEncoder();
   private ArmFeedforward feedforward = new ArmFeedforward(Constants.ClimbConstants.kS, Constants.ClimbConstants.kG, Constants.ClimbConstants.kV);
 
-
   public ClimbSubsystem() {
     setupSpark();
   }
   //Configures motors and encoders
   public void setupSpark() {
     SparkMaxConfig config = new SparkMaxConfig(); 
+    
+
+    //Create a method, parameters kp,ki,kd, SETPID set PID controller values to values passed in through the method
     
     config.idleMode(IdleMode.kBrake);
 
@@ -62,6 +64,10 @@ public class ClimbSubsystem extends SubsystemBase {
 
     climbMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
+  // Changes the current PID values to new PID values.
+  public void changePID(double kP,double kI,double kD ){
+    climbPIDController.setPID(kP, kI, kD);
+  }
   @Override
   public void periodic() {
     // Gets the desired speed to get to the target position from the current position. 
@@ -75,6 +81,11 @@ public class ClimbSubsystem extends SubsystemBase {
   public void goToInitial(){
     goToAngle(ClimbConstants.deployPosition);
 }
+ //Checks to see if the position the climb is at is the desired position.
+ public boolean isAtAngle(){
+  return getAngle()==targetPosition;
+
+ }
   // Goes to the desired position to climb.
 public void goToClimb(){
     goToAngle(ClimbConstants.climbPosition);
