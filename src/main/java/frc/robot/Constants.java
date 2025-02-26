@@ -85,7 +85,7 @@ public final class Constants {
     public static final double kV=0.20; // the velocity applied
     public static final double kG=0.78; // the counter gravity
     public static final float kForwardSoftLimit=0;
-    public static final float kReverseSoftLimit=180;
+    public static final float kReverseSoftLimit=90;
     public static final double kAbsPositionConversionFactor=360;
     public static final double kAbsVelocityConversionFactor=0;
     public static final double kRelativePositionConversionFactor=360;
