@@ -58,7 +58,7 @@ public class RobotContainer {
 
       public DriveSubsystem driveSubsystem;
 
-      public CANRollerSubsystem rollerSubsystem;
+      public CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
        public VisionSubsystem visionSubsystem = new VisionSubsystem();
       private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -141,6 +141,10 @@ public class RobotContainer {
       () -> driverController.getRightX()
       )
       );
+      driverController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
+
+     operatorController.a()
+      .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
 
     if(RobotBase.isSimulation()){
       driveSubsystem.resetPose(new Pose2d(2,2,new Rotation2d()));
@@ -149,8 +153,6 @@ public class RobotContainer {
     // value ejecting the gamepiece while the button is held
 
     // befo
-    operatorController.a()
-        .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     //operatorController.b()
     //    .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
@@ -167,9 +169,9 @@ public class RobotContainer {
     // angular rotaiton to right x joystick
     driveSubsystem.setDefaultCommand(
       driveSubsystem.driveCommand( 
-        () -> -MathUtil.applyDeadband(driverController.getLeftY(), 0.05), 
-        () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.05),
-        () -> -MathUtil.applyDeadband(driverController.getRightX(), 0.05)
+        () ->-MathUtil.applyDeadband(driverController.getLeftY(), 0.05), 
+        () ->-MathUtil.applyDeadband(driverController.getLeftX(), 0.05),
+        () ->-MathUtil.applyDeadband(driverController.getRightX(), 0.05)
         )
         );
 

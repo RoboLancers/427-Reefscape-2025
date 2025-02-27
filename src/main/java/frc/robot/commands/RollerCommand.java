@@ -20,7 +20,7 @@ public class RollerCommand extends Command {
     this.reverse = reverse;
     this.rollerSubsystem = CANRollerSubsystem;
 
-//     addRequirements(this.rollerSubsystem);
+     addRequirements(this.rollerSubsystem);
    }
 
 //   @Override
