@@ -53,6 +53,8 @@ public class DriveSubsystem extends SubsystemBase{
       // Handle exception as needed
       e.printStackTrace();
     }
+
+    
 /* 
     AutoBuilder.configure(
       this::getPose,
@@ -74,6 +76,10 @@ public class DriveSubsystem extends SubsystemBase{
       this
     );
 */
+  }
+
+  public void resetOdometry(){
+    swerveDrive.resetOdometry(new Pose2d());
   }
                
   public Command followPathCommand(String pathName) {

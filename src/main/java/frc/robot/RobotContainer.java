@@ -58,7 +58,7 @@ public class RobotContainer {
 
       public DriveSubsystem driveSubsystem;
 
-      public CANRollerSubsystem rollerSubsystem;
+      public CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
        public VisionSubsystem visionSubsystem = new VisionSubsystem();
       private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -152,7 +152,7 @@ public class RobotContainer {
     operatorController.a()
         .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     //operatorController.b()
-    //    .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
+    //  .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
     //operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,algaeRollerSubsystem ));
     //    operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,algaeRollerSubsystem ));
@@ -167,9 +167,9 @@ public class RobotContainer {
     // angular rotaiton to right x joystick
     driveSubsystem.setDefaultCommand(
       driveSubsystem.driveCommand( 
-        () -> -MathUtil.applyDeadband(driverController.getLeftY(), 0.05), 
-        () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.05),
-        () -> -MathUtil.applyDeadband(driverController.getRightX(), 0.05)
+        () -> 1.2*MathUtil.applyDeadband(driverController.getLeftY(), 0.20), 
+        () -> 1.2*MathUtil.applyDeadband(driverController.getLeftX(), 0.20),
+        () -> 1.2*MathUtil.applyDeadband(driverController.getRightY(), 0.20)
         )
         );
 
@@ -184,6 +184,8 @@ public class RobotContainer {
     //     ? stream.filter(auto -> auto.getName().startsWith("comp"))
     //     : stream
     // );
+
+    driverController.a().onTrue(Commands.runOnce(() -> driveSubsystem.resetOdometry()));
 
  
 
