@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import java.io.IOException;
@@ -31,8 +32,10 @@ import frc.robot.subsystems.Vision.VisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.AlgaeCommand;
 import frc.robot.commands.RollerCommand;
+import frc.robot.commands.WaitCommand;
 import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
 import frc.robot.Constants.RollerConstants;
+import frc.robot.commands.WaitCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -70,7 +73,15 @@ public class RobotContainer {
     field = new Field2d();
     SmartDashboard.putData("Field", field);
 
-
+    NamedCommands.registerCommand("Coral_Score",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Bottom",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Bottom_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Score_Bottom_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Score_Top",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Score_Top_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Score_Top_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("WaitTime", new WaitCommand(1.0)); 
+    getAutonomousCommand();
     // Logging callback for current robot pose
       PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
           // Do whatever you want with the pose here
