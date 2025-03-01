@@ -80,10 +80,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("Coral_Score",new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
     NamedCommands.registerCommand("Coral_Score_Bottom",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     NamedCommands.registerCommand("Coral_Score_Bottom_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Score_Bottom_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Score_Top",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Score_Top_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Score_Top_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Bottom_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Top",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Top_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Top_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     NamedCommands.registerCommand("Wait_Coral_Top", new WaitCommand(1.0)); 
     NamedCommands.registerCommand("Wait_Coral_Top_2", new WaitCommand(1.0)); 
     NamedCommands.registerCommand("Wait_Coral_Bottom", new WaitCommand(1.0)); 

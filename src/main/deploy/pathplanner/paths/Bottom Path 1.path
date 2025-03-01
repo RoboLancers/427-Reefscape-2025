@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.35608108108108,
-        "y": 2.662612612612611
+        "x": 5.384659090909091,
+        "y": 2.604048295454545
       },
       "prevControl": {
-        "x": 5.111435383661818,
-        "y": 2.6111492010055017
+        "x": 5.140013393489829,
+        "y": 2.5525848838474356
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Coral_Score_Bottom",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -42,7 +49,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 124.62415507994886
+    "rotation": 121.86597769360375
   },
   "reversed": false,
   "folder": null,
