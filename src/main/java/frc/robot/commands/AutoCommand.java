@@ -24,9 +24,9 @@ public class AutoCommand extends Command {
 //     // subsystem this command sets and output of
     addRequirements(driveSubsystem);
    }
-
 //   // Runs each time the command is scheduled. For this command, we handle starting
 //   // the timer.
+   
    @Override
    public void initialize() {
 //     // start timer, uses restart to clear the timer as well in case this command has
@@ -46,7 +46,7 @@ public class AutoCommand extends Command {
    @Override
    public void end(boolean isInterrupted) {
 //     // stop drive motors
-//     driveSubsystem.driveArcade(0.0, 0.0);
+    driveSubsystem.driveCommand(() -> 0.0, () -> 0.0, ()->0);
    }
 
 //   // Runs every cycle while the command is scheduled to check if the command is
@@ -57,4 +57,4 @@ public class AutoCommand extends Command {
 //     // this command is finished
      return timer.get() >= seconds;
    }
- }
+}
