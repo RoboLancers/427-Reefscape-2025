@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.791666666666667,
-        "y": 5.294144144144143
+        "x": 4.495355033142859,
+        "y": 5.32177643766672
       },
       "isLocked": false,
       "linkedName": "TopPath3End"
     },
     {
       "anchor": {
-        "x": 1.4709459459459444,
-        "y": 6.868918918918919
+        "x": 1.261666666666666,
+        "y": 7.110833333333334
       },
       "prevControl": {
-        "x": 0.3831081081090646,
-        "y": 7.3869369369338616
+        "x": 0.8528314393939385,
+        "y": 7.40998106060606
       },
       "nextControl": null,
       "isLocked": false,
@@ -36,7 +36,14 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Wait_Coral_Top_2",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

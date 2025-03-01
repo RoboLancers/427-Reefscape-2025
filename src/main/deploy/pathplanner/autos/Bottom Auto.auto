@@ -33,18 +33,6 @@
           "data": {
             "pathName": "Bottom Path 5"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Bottom Path 6"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Bottom Path 7"
-          }
         }
       ]
     }

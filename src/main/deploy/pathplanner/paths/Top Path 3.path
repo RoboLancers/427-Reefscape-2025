@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4398648648700447,
-        "y": 6.931081081086261
+        "x": 1.4259375,
+        "y": 7.001519886363636
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.439864864870045,
-        "y": 6.931081081086261
+        "x": 2.4259375,
+        "y": 7.001519886363636
       },
       "isLocked": false,
       "linkedName": "TopPath2End"
@@ -36,7 +36,14 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Coral_Score_Top_2",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
