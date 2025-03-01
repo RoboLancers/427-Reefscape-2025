@@ -11,7 +11,9 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -50,7 +52,7 @@ public class DriveSubsystem extends SubsystemBase{
       // Handle exception as needed
       e.printStackTrace();
     }
-/* 
+ 
     AutoBuilder.configure(
       this::getPose,
       this::resetPose,
@@ -70,7 +72,6 @@ public class DriveSubsystem extends SubsystemBase{
       },
       this
     );
-*/
   }
                
   public Command followPathCommand(String pathName) {
@@ -155,9 +156,7 @@ public class DriveSubsystem extends SubsystemBase{
         //   robotPose = swerveDrive.getSimulationDriveTrainPose().get();
         //   SmartDashboard.put
         // } catch NoSuchElementException {
-
         // }
-        swerveDrive.updateOdometry();
-          
       }
+      
 }

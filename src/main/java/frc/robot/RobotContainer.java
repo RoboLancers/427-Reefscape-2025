@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-// import frc.robot.commands.AutoCommand;
+ import frc.robot.commands.AutoCommand;
 // import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
 import frc.robot.subsystems.Vision.VisionSubsystem;
@@ -111,19 +111,19 @@ public class RobotContainer {
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
 
-    // try {
-    //   driveSubsystem = new DriveSubsystem();
-    // } catch (IOException e) {
+     try {
+      driveSubsystem = new DriveSubsystem();
+     } catch (IOException e) {
 
-      // e.printStackTrace();
-    // }
+       e.printStackTrace();
+     }
 
     // // Set up command bindings
     // configureBindings();
     
 
-    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
-    //rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+    // autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    // rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
     //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
     // Set up command bindings
     //configureBindings();
@@ -163,12 +163,14 @@ public class RobotContainer {
     // befo
     operatorController.a()
         .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-
+        operatorController.a()
+        .onFalse(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     operatorController.b()
         .whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
     
     operatorController.leftTrigger().whileTrue(new AlgaeCommand(()->0.44,()->0,algaeRollerSubsystem ));
         operatorController.rightTrigger().whileTrue(new AlgaeCommand(()->0,()->0.44,algaeRollerSubsystem ));
+        
     // Set the default command for the drive subsystem to an instance of the
     // DriveCommand with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
