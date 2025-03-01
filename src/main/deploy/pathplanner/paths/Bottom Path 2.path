@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.35608108108108,
-        "y": 2.662612612612611
+        "x": 5.384659090909091,
+        "y": 2.604048295454545
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.6929682352134,
-        "y": 2.72779982528344
+        "x": 5.721546245041411,
+        "y": 2.669235508125374
       },
       "isLocked": false,
       "linkedName": "BottomPath1End"
     },
     {
       "anchor": {
-        "x": 1.5952702702702688,
-        "y": 0.8909909909909902
+        "x": 1.5093589743589737,
+        "y": 0.7946794871794873
       },
       "prevControl": {
-        "x": 1.4618419564048883,
-        "y": 1.1024073693987226
+        "x": 1.3759306604935932,
+        "y": 1.0060958655872199
       },
       "nextControl": null,
       "isLocked": false,
@@ -36,7 +36,14 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Wait_Coral_Bottom",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -47,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -130.03025927188966
+    "rotation": -127.14668669802181
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 124.62415507994886
+    "rotation": 121.86597769360375
   },
   "useDefaultConstraints": true
 }

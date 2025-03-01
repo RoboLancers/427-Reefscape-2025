@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5952702702702688,
-        "y": 0.8909909909909902
+        "x": 1.5093589743589737,
+        "y": 0.7946794871794873
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5262316698217524,
-        "y": 1.268632470327512
+        "x": 2.440320373910457,
+        "y": 1.172320966516009
       },
       "isLocked": false,
       "linkedName": "BottomPath2End"
@@ -31,12 +31,19 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.5,
-      "rotationDegrees": 13.091893064346811
+      "rotationDegrees": 16.194165559415726
     }
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Coral_Score_Bottom_2",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -53,7 +60,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -130.03025927188966
+    "rotation": -127.14668669802181
   },
   "useDefaultConstraints": true
 }
