@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import java.io.IOException;
@@ -49,6 +50,11 @@ import frc.robot.commands.WaitCommand;
 public class RobotContainer {
 
   private final Field2d field;
+
+  public Command getAutonomousCommand(){
+    // An example command will be run in autonomous
+    return new PathPlannerAuto("");
+  }
   
 
   private final AlgaeIntakeRollersSubsystem algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
@@ -69,6 +75,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Set up command bindings
+
 
     field = new Field2d();
     SmartDashboard.putData("Field", field);
@@ -208,24 +215,24 @@ public class RobotContainer {
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
-  }
+  }{
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
+    
+
     try{
       // Load the path you want to follow using its name in the GUI
       PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
 
 
       // Create a path following command using AutoBuilder. This will also trigger event markers.
-      return AutoBuilder.followPath(path);
+      AutoBuilder.followPath(path);
   } catch (Exception e) {
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
-      return Commands.none();
+      Commands.none();
     }
-  }
+}
 }
