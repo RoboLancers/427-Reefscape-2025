@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-//import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import java.io.IOException;
@@ -185,7 +185,7 @@ public class RobotContainer {
       );
 
 
-        //autoChooser = AutoBuilder.buildAutoChooser("CoralThenStation");
+      autoChooser = AutoBuilder.buildAutoChooser("Center Auto");
  
 
       //autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
@@ -209,7 +209,7 @@ public class RobotContainer {
     // An example command will be run in autonomous
     try{
       // Load the path you want to follow using its name in the GUI
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+    //PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
       return autoChooser.getSelected();
 
 
