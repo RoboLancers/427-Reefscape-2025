@@ -73,6 +73,7 @@ public class RobotContainer {
     field = new Field2d();
     SmartDashboard.putData("Field", field);
 
+    // Coral roller and wait command for auto.
     NamedCommands.registerCommand("Coral_Score",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     NamedCommands.registerCommand("Coral_Score_Bottom",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     NamedCommands.registerCommand("Coral_Score_Bottom_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
