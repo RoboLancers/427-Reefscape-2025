@@ -77,7 +77,7 @@ public class RobotContainer {
     SmartDashboard.putData("Field", field);
 
     // Coral roller and wait command for auto.
-    NamedCommands.registerCommand("Coral_Score",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score",new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
     NamedCommands.registerCommand("Coral_Score_Bottom",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     NamedCommands.registerCommand("Coral_Score_Bottom_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
     NamedCommands.registerCommand("Coral_Score_Score_Bottom_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
@@ -158,11 +158,17 @@ public class RobotContainer {
       )
       );
       driverController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
+      operatorController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
 
      driverController.a()
       .whileTrue(new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
       operatorController.a()
       .whileTrue(new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
+      driverController.b()
+      .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+      operatorController.b()
+      .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+
      //  .whileTrue(rollerSubsystem.runRollerCommand(RollerConstants.ROLLER_EJECT_VALUE, 0));
     if(RobotBase.isSimulation()){
       driveSubsystem.resetPose(new Pose2d(2,2,new Rotation2d()));
@@ -187,12 +193,12 @@ public class RobotContainer {
     // angular rotaiton to right x joystick
     driveSubsystem.setDefaultCommand(
       driveSubsystem.driveCommand( 
-        () ->-MathUtil.applyDeadband(driverController.getLeftY(), 0.05), 
-        () ->-MathUtil.applyDeadband(driverController.getLeftX(), 0.05),
-        () ->-MathUtil.applyDeadband(driverController.getRightX(), 0.05)
+        () ->-MathUtil.applyDeadband(driverController.getLeftY(), 0.15), 
+        () ->-MathUtil.applyDeadband(driverController.getLeftX(), 0.15),
+        () ->-MathUtil.applyDeadband(driverController.getRightX(), 0.15)
         )
         );
-
+      
         boolean isCompetition = true;
 
     rollerSubsystem.setDefaultCommand(
