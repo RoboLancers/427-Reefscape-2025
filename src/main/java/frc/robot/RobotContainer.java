@@ -143,9 +143,9 @@ public class RobotContainer {
       );
       driverController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
 
-     operatorController.a()
-      .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-
+     driverController.a()
+      .whileTrue(new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
+     //  .whileTrue(rollerSubsystem.runRollerCommand(RollerConstants.ROLLER_EJECT_VALUE, 0));
     if(RobotBase.isSimulation()){
       driveSubsystem.resetPose(new Pose2d(2,2,new Rotation2d()));
     } 
@@ -176,6 +176,13 @@ public class RobotContainer {
         );
 
         boolean isCompetition = true;
+
+    rollerSubsystem.setDefaultCommand(
+      new RollerCommand(
+        () -> 0,
+        () -> 0,
+        rollerSubsystem)
+      );
 
 
         //autoChooser = AutoBuilder.buildAutoChooser("CoralThenStation");
