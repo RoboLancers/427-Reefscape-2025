@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import java.io.IOException;
@@ -22,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-// import frc.robot.commands.AutoCommand;
+ import frc.robot.commands.AutoCommand;
 // import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
 import frc.robot.subsystems.Vision.VisionSubsystem;
@@ -32,8 +34,10 @@ import frc.robot.subsystems.Vision.VisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.AlgaeCommand;
 import frc.robot.commands.RollerCommand;
+import frc.robot.commands.WaitCommand;
 //import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
 import frc.robot.Constants.RollerConstants;
+import frc.robot.commands.WaitCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -68,10 +72,22 @@ public class RobotContainer {
   public RobotContainer() {
     // Set up command bindings
 
+
     field = new Field2d();
     SmartDashboard.putData("Field", field);
 
-
+    // Coral roller and wait command for auto.
+    NamedCommands.registerCommand("Coral_Score",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Bottom",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Bottom_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Score_Bottom_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Score_Top",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Score_Top_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Coral_Score_Score_Top_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    NamedCommands.registerCommand("Wait_Coral_Top", new WaitCommand(1.0)); 
+    NamedCommands.registerCommand("Wait_Coral_Top_2", new WaitCommand(1.0)); 
+    NamedCommands.registerCommand("Wait_Coral_Bottom", new WaitCommand(1.0)); 
+    NamedCommands.registerCommand("Wait_Coral_Bottom_2", new WaitCommand(1.0)); 
     // Logging callback for current robot pose
       // PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
       //     // Do whatever you want with the pose here
@@ -218,10 +234,9 @@ public class RobotContainer {
     //return AutoBuilder.followPath(path);
   } catch (Exception e) {
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
-      return Commands.none();
+      Commands.none();
     }
-    
-  }
+}
 }
   
 
