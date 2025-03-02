@@ -38,7 +38,7 @@ import frc.robot.commands.WaitCommand;
 //import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.WaitCommand;
-
+import frc.robot.commands.RollerCommandAuto;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -75,15 +75,16 @@ public class RobotContainer {
 
     field = new Field2d();
     SmartDashboard.putData("Field", field);
-
-    // Coral roller and wait command for auto.
-    NamedCommands.registerCommand("Coral_Score",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Bottom",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Bottom_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Bottom_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Top",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Top_2",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    NamedCommands.registerCommand("Coral_Score_Top_3",new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+    // Declares Coral Score as a roller command.
+    RollerCommandAuto Coral_Score =new RollerCommandAuto(()->0,() -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem);
+     // Coral roller and wait command for auto
+    NamedCommands.registerCommand("Coral_Score", Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Bottom",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Bottom_2",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Bottom_3",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Top",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Top_2",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Top_3",Coral_Score);
     NamedCommands.registerCommand("Wait_Coral_Top", new WaitCommand(1.0)); 
     NamedCommands.registerCommand("Wait_Coral_Top_2", new WaitCommand(1.0)); 
     NamedCommands.registerCommand("Wait_Coral_Bottom", new WaitCommand(1.0)); 
@@ -123,16 +124,16 @@ public class RobotContainer {
 
     // // Set up command bindings
 
+
+     //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystem));
+    // rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+
     configureBindings();
-    
- 
-    //rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+
     //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
     // Set up command bindings
     //configureBindings();
     
-    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
-
   }
 
   /**
