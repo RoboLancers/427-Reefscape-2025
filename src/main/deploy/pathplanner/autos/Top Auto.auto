@@ -11,9 +11,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Coral_Score_Top"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Top Path 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Wait_Coral_Top"
           }
         },
         {
@@ -23,15 +35,33 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Coral_Score_Top_2"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Top Path 4"
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Wait_Coral_Top_2"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Top Path 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral_Score_Top_3"
           }
         }
       ]

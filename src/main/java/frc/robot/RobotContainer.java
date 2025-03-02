@@ -129,13 +129,13 @@ public class RobotContainer {
     // configureBindings();
     
 
-    // autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+     autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystem));
     // rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
     //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
     // Set up command bindings
     //configureBindings();
     
-    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
+    autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystem));
   }
 
   /**
