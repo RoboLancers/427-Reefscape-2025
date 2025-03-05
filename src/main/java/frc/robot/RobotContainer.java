@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import java.io.IOException;
@@ -94,7 +95,7 @@ public class RobotContainer {
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
-    // autoChooser.addOption
+    //  .addOption
 
     // try {
     //   driveSubsystem = new DriveSubsystem();
@@ -202,7 +203,6 @@ public class RobotContainer {
     try{
       // Load the path you want to follow using its name in the GUI
       PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
-
 
       // Create a path following command using AutoBuilder. This will also trigger event markers.
       return AutoBuilder.followPath(path);
