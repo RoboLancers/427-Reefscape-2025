@@ -3,6 +3,7 @@
 // // the WPILib BSD license file in the root directory of this project.
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
@@ -14,27 +15,31 @@ public class RollerCommandAuto extends Command {
   private final DoubleSupplier forward;
   private final DoubleSupplier reverse;
   private final CANRollerSubsystem rollerSubsystem;
+  Timer WaitTime;
 
   public RollerCommandAuto (DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem CANRollerSubsystem) {
 
     this.forward = forward;
     this.reverse = reverse;
     this.rollerSubsystem = CANRollerSubsystem;
+    
 
-//     addRequirements(this.rollerSubsystem);
+  addRequirements(this.rollerSubsystem);
    }
 
-//   @Override
-//   public void initialize() {
-//   }
+  @Override
+  public void initialize() {
+   WaitTime = new Timer();
+   WaitTime.start();
+  }
 
 //   // Runs every cycle while the command is scheduled (~50 times per second)
    @Override
 public void execute() {
 //     // Run the roller motor at the desired speed
      rollerSubsystem.runRoller(forward.getAsDouble(), reverse.getAsDouble());
-     Commands.waitSeconds(0.5);
-     end(isFinished());
+     
+     
    }
 
 //   // Runs each time the command ends via isFinished or being interrupted.
@@ -44,9 +49,10 @@ public void execute() {
 
 //   // Runs every cycle while the command is scheduled to check if the command is
 //   // finished
-//   @Override
-//   public boolean isFinished() {
-//     // Return false to indicate that this command never ends. It can be interrupted
-//     // by another command needing the same subsystem.
-//     return false;
+  @Override
+  public boolean isFinished() {
+    // Return false to indicate that this command never ends. It can be interrupted
+    // by another command needing the same subsystem.
+    return WaitTime.hasElapsed(1);
+}
   }
