@@ -4,6 +4,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
@@ -15,7 +16,8 @@ public class RollerCommandAuto extends Command {
   private final DoubleSupplier forward;
   private final DoubleSupplier reverse;
   private final CANRollerSubsystem rollerSubsystem;
-  Timer WaitTime;
+  Timer waitTime;
+  private double timeToWait;
 
   public RollerCommandAuto (DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem CANRollerSubsystem) {
 
@@ -24,13 +26,20 @@ public class RollerCommandAuto extends Command {
     this.rollerSubsystem = CANRollerSubsystem;
     
 
-  addRequirements(this.rollerSubsystem);
-   }
+    addRequirements(this.rollerSubsystem);
+  }
+
+  public void waitCommand (double seconds) {
+    seconds = 0.5;
+    timeToWait = seconds;
+    waitTime = new Timer();
+    waitTime.start();
+  }
 
   @Override
   public void initialize() {
-   WaitTime = new Timer();
-   WaitTime.start();
+   waitTime = new Timer();
+   waitTime.start();
   }
 
 //   // Runs every cycle while the command is scheduled (~50 times per second)
@@ -42,10 +51,13 @@ public void execute() {
      
    }
 
-//   // Runs each time the command ends via isFinished or being interrupted.
-//   @Override
-//   public void end(boolean isInterrupted) {
-//   }
+  // Runs each time the command ends via isFinished or being interrupted.
+   @Override
+    public void end(boolean isInterrupted) {
+      if (waitTime.hasElapsed(timeToWait)) {
+        rollerSubsystem.runRollerCommand(0, 0);
+      }
+   }
 
 //   // Runs every cycle while the command is scheduled to check if the command is
 //   // finished
@@ -53,6 +65,6 @@ public void execute() {
   public boolean isFinished() {
     // Return false to indicate that this command never ends. It can be interrupted
     // by another command needing the same subsystem.
-    return WaitTime.hasElapsed(1);
+    return waitTime.hasElapsed(1);
 }
   }
