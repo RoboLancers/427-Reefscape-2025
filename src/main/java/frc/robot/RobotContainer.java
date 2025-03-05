@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -113,12 +114,12 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    driverController.a().whileTrue(driveSubsystem.tune(
-      () -> driverController.getLeftX(), 
-      () -> driverController.getLeftY(),
-      () -> driverController.getRightX()
-      )
-      );
+    // driverController.a().whileTrue(driveSubsystem.tune(
+    //   () -> driverController.getLeftX(), 
+    //   () -> driverController.getLeftY(),
+    //   () -> driverController.getRightX()
+    //   )
+    //   );
 
     if(RobotBase.isSimulation()){
       driveSubsystem.resetPose(new Pose2d(2,2,new Rotation2d()));
@@ -136,14 +137,16 @@ public class RobotContainer {
 
     //translationx and translatioin y to left joystick 
     // angular rotaiton to right x joystick
+
     driveSubsystem.setDefaultCommand(
       driveSubsystem.driveCommand( 
-        () -> driverController.getLeftX(), 
-        () -> driverController.getLeftY(),
-        () -> driverController.getRightX()
-        )
-        );
+      () -> -driverController.getLeftY(), 
+      () -> -driverController.getLeftX(),
+      () -> driverController.getRightX()
+      )
+      );
 
+        
         boolean isCompetition = true;
 
 

@@ -22,6 +22,7 @@ import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 import swervelib.SwerveDrive;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,11 +33,14 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.PIDFConfig;
 import swervelib.SwerveModule;
+import swervelib.math.SwerveMath;
 
 public class DriveSubsystem extends SubsystemBase{
     SwerveDrive swerveDrive;
     RobotConfig config;
-    Pose2d robotPose; 
+    Pose2d robotPose;
+    
+    
     StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose2d.struct).publish();
 
     public DriveSubsystem() throws IOException{
@@ -91,23 +95,30 @@ public class DriveSubsystem extends SubsystemBase{
 
 
     }
-    public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX)
-    {
-      return run(() -> {
-        // Make the robot move
-        swerveDrive.drive(new Translation2d(translationX.getAsDouble() * DriveConstants.maxSpeed,
-                                            translationY.getAsDouble() * DriveConstants.maxSpeed),
-                          angularRotationX.getAsDouble() * swerveDrive.getMaximumChassisAngularVelocity(),
-                          true,
-                          false);
-      });
+
+
+    public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY,
+            DoubleSupplier angularRotationX) {
+        return run(() -> {
+            // Make the robot move
+            swerveDrive.drive(new Translation2d(
+                    translationX.getAsDouble() * DriveConstants.maxSpeed, 
+                    translationY.getAsDouble() * DriveConstants.maxSpeed),
+                    angularRotationX.getAsDouble() * swerveDrive.swerveController.config.maxAngularVelocity,
+                    true,
+                    false);
+        });
     }
 
+    public void drive(ChassisSpeeds velocity) {
+      swerveDrive.drive(velocity);
+  }
+  
     public Command tune(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX){
         SmartDashboard.putNumber("SwerveModuleVelocitykP", 0);
         SmartDashboard.putNumber("SwerveModuleVelocitykI", 0);
         SmartDashboard.putNumber("SwerveModuleVelocitykD", 0);
-
+ 
         SmartDashboard.putNumber("SwerveModuleAnglekP", 0);
         SmartDashboard.putNumber("SwerveModuleAnglekI", 0);
         SmartDashboard.putNumber("SwerveModuleAnglekD", 0);
@@ -134,6 +145,7 @@ public class DriveSubsystem extends SubsystemBase{
             }
         }).andThen(
             driveCommand(translationX, translationY, angularRotationX)
+            //driveCommand(translationX, translationY, headingX, headingY)
         );
     }
 
@@ -161,6 +173,8 @@ public class DriveSubsystem extends SubsystemBase{
         //   robotPose = swerveDrive.getSimulationDriveTrainPose().get();
         //   publisher.set(robotPose);
         // } 
+
+        SmartDashboard.putNumber("GyroAngle", swerveDrive.getOdometryHeading().getDegrees());
         robotPose = swerveDrive.getPose();
         publisher.set(robotPose);
         swerveDrive.updateOdometry();
