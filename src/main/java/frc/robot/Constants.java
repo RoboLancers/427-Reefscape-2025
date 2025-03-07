@@ -127,8 +127,9 @@ public final class Constants {
     public static final double kP=0;
     public static final double kI=0;
     public static final double kD=0;
+    public static final double kOuttakeVoltage=0;
+    public static final double kIntakeVoltage=0;
     // public static final double startingPosition=0;
-    // public static final int kLimitSwitchId=0;
     // public static final int kArmMotorLeftId=0;
     // public static final double kTolerance=0;
     // public static final double kGroundPosition=0;
