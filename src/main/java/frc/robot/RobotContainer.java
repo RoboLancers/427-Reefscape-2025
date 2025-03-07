@@ -121,6 +121,7 @@ public class RobotContainer {
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
+
     //autoChooser.addOption
 
 
@@ -246,7 +247,6 @@ public class RobotContainer {
       // Load the path you want to follow using its name in the GUI
     //PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
       return autoChooser.getSelected();
-
 
       // Create a path following command using AutoBuilder. This will also trigger event markers.
 
