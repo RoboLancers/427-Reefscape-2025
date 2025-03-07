@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
  import frc.robot.commands.AutoCommand;
+import frc.robot.commands.GoToClimb;
 // import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
 import frc.robot.subsystems.Vision.VisionSubsystem;
@@ -34,11 +35,11 @@ import frc.robot.subsystems.Vision.VisionSubsystem;
 
 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.commands.AlgaeCommand;
+//import frc.robot.commands.AlgaeCommand;
 import frc.robot.commands.GoToInitial;
 import frc.robot.commands.RollerCommand;
 
-import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
+//import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 
 import frc.robot.Constants.RollerConstants;
@@ -59,7 +60,7 @@ public class RobotContainer {
   
 
 
-  private final AlgaeIntakeRollersSubsystem algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
+  //private final AlgaeIntakeRollersSubsystem algaeRollerSubsystem = new AlgaeIntakeRollersSubsystem();
   private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   private final CommandXboxController driverController = new CommandXboxController(
@@ -183,17 +184,12 @@ public class RobotContainer {
 
     // befo
 
-    driverController.a().whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-    
-    driverController.b().whileTrue(new AlgaeCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, algaeRollerSubsystem));
+    driverController.b().toggleOnTrue(new GoToInitial(climbSubsystem));
+    driverController.y().toggleOnTrue(new GoToClimb(climbSubsystem));
 
-    driverController.x().toggleOnTrue(new GoToInitial(climbSubsystem));
+    //driverController.leftTrigger().whileTrue(new AlgaeCommand(() -> 0.44, () -> 0, algaeRollerSubsystem));
 
-    driverController.y().toggleOnTrue(new GoToInitial(climbSubsystem));
-
-    driverController.leftTrigger().whileTrue(new AlgaeCommand(() -> 0.44, () -> 0, algaeRollerSubsystem));
-
-    driverController.rightTrigger().whileTrue(new AlgaeCommand(() -> 0, () -> 0.44, algaeRollerSubsystem));
+   // driverController.rightTrigger().whileTrue(new AlgaeCommand(() -> 0, () -> 0.44, algaeRollerSubsystem));
 
 
     // Set the default command for the drive subsystem to an instance of the
@@ -231,10 +227,10 @@ public class RobotContainer {
         ? stream.filter(auto -> auto.getName().startsWith("comp"))
         : stream
     );
-    algaeRollerSubsystem.setDefaultCommand( new AlgaeCommand(
-        () -> operatorController.getRightTriggerAxis(),
-        () -> operatorController.getLeftTriggerAxis(),
-        algaeRollerSubsystem));
+    // algaeRollerSubsystem.setDefaultCommand( new AlgaeCommand(
+    //     () -> operatorController.getRightTriggerAxis(),
+    //     () -> operatorController.getLeftTriggerAxis(),
+    //     algaeRollerSubsystem));
         
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -254,7 +250,7 @@ public class RobotContainer {
 
       // Create a path following command using AutoBuilder. This will also trigger event markers.
 
-      return AutoBuilder.followPath(path);
+      //return AutoBuilder.followPath(path);
     } catch (Exception e) {
         DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
         return Commands.none();
@@ -262,6 +258,6 @@ public class RobotContainer {
   }
 
 }
-}
+
   
 

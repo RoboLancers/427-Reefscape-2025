@@ -27,8 +27,6 @@ import edu.wpi.first.units.measure.Angle;
  */
 public final class Constants {
   public static final class DriveConstants {
-    public static final double maxSpeed = 4;
-    public static final double maxAngularSpeed = 2;
     public static final int LEFT_LEADER_ID = 1;
     public static final int LEFT_FOLLOWER_ID = 2;
     public static final int RIGHT_LEADER_ID = 3;
@@ -82,12 +80,7 @@ public final class Constants {
     public static final Angle climbPosition = Degree.of(210);
 
  }
- public static final class AlgaeConstants {
-    public static final int INTAKE_MOTOR_ID=6;
-    public static final int AlgaeGearRatio=100; //Find out the actual value later
 
-    public static final double kGroundPosition=0;
-  }
 
   public static final class AlgaeRemoverConstants {
     public static final int REMOVER_MOTOR_ID=13;
