@@ -4,7 +4,9 @@
 
 package frc.robot;
 
-//import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import java.io.IOException;
@@ -22,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-// import frc.robot.commands.AutoCommand;
+ import frc.robot.commands.AutoCommand;
 // import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
 import frc.robot.subsystems.Vision.VisionSubsystem;
@@ -32,9 +34,11 @@ import frc.robot.subsystems.Vision.VisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.AlgaeCommand;
 import frc.robot.commands.RollerCommand;
+import frc.robot.commands.WaitCommand;
 //import frc.robot.subsystems.algaeIntake.AlgaeIntakeRollersSubsystem;
 import frc.robot.Constants.RollerConstants;
-
+import frc.robot.commands.WaitCommand;
+import frc.robot.commands.RollerCommandAuto;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -68,10 +72,23 @@ public class RobotContainer {
   public RobotContainer() {
     // Set up command bindings
 
+
     field = new Field2d();
     SmartDashboard.putData("Field", field);
-
-
+    // Declares Coral Score as a roller command.
+    RollerCommandAuto Coral_Score =new RollerCommandAuto(()->0,() -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem);
+     // Coral roller and wait command for auto
+    NamedCommands.registerCommand("Coral_Score", Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Bottom",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Bottom_2",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Bottom_3",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Top",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Top_2",Coral_Score);
+    NamedCommands.registerCommand("Coral_Score_Top_3",Coral_Score);
+    NamedCommands.registerCommand("Wait_Coral_Top", new WaitCommand(1.0)); 
+    NamedCommands.registerCommand("Wait_Coral_Top_2", new WaitCommand(1.0)); 
+    NamedCommands.registerCommand("Wait_Coral_Bottom", new WaitCommand(1.0)); 
+    NamedCommands.registerCommand("Wait_Coral_Bottom_2", new WaitCommand(1.0)); 
     // Logging callback for current robot pose
       // PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
       //     // Do whatever you want with the pose here
@@ -107,16 +124,16 @@ public class RobotContainer {
 
     // // Set up command bindings
 
+
+     //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystem));
+    // rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+
     configureBindings();
-    
- 
-    //rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
+
     //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
     // Set up command bindings
     //configureBindings();
     
-    //autoChooser.setDefaultOption("Autonomous", new AutoCommand(driveSubsystemCAN));
-
   }
 
   /**
@@ -143,9 +160,11 @@ public class RobotContainer {
       );
       driverController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
 
-     operatorController.a()
-      .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
-
+     driverController.a()
+      .whileTrue(new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
+      operatorController.a()
+      .whileTrue(new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
+     //  .whileTrue(rollerSubsystem.runRollerCommand(RollerConstants.ROLLER_EJECT_VALUE, 0));
     if(RobotBase.isSimulation()){
       driveSubsystem.resetPose(new Pose2d(2,2,new Rotation2d()));
     } 
@@ -177,8 +196,15 @@ public class RobotContainer {
 
         boolean isCompetition = true;
 
+    rollerSubsystem.setDefaultCommand(
+      new RollerCommand(
+        () -> 0,
+        () -> 0,
+        rollerSubsystem)
+      );
 
-        //autoChooser = AutoBuilder.buildAutoChooser("CoralThenStation");
+
+      autoChooser = AutoBuilder.buildAutoChooser("Center Auto");
  
 
       //autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
@@ -202,7 +228,7 @@ public class RobotContainer {
     // An example command will be run in autonomous
     try{
       // Load the path you want to follow using its name in the GUI
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+    //PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
       return autoChooser.getSelected();
 
 
@@ -213,8 +239,7 @@ public class RobotContainer {
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
       return Commands.none();
     }
-    
-  }
+}
 }
   
 

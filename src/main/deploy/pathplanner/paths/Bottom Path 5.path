@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.7195945945945932,
-        "y": 0.8391891891891874
+        "x": 1.4061538461538456,
+        "y": 0.8153205128205127
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7846591355504975,
-        "y": 0.770487508125319
+        "x": 2.47121838710975,
+        "y": 0.7466188317566442
       },
       "isLocked": false,
       "linkedName": "BottomPath4End"
@@ -36,7 +36,14 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Coral_Score_Bottom_3",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

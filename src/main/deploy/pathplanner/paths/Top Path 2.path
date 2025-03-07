@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 1.4398648648700447,
-        "y": 6.931081081086261
+        "x": 1.3545512820512815,
+        "y": 7.131474358974359
       },
       "prevControl": {
-        "x": 2.1546901327007753,
-        "y": 6.5704357976415855
+        "x": 2.069376549882013,
+        "y": 6.770829075529684
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,8 +38,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "",
-      "waypointRelativePos": 0,
+      "name": "Wait_Coral_Top",
+      "waypointRelativePos": 1.0,
       "endWaypointRelativePos": null,
       "command": null
     }
