@@ -4,11 +4,14 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degree;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.units.measure.Angle;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -24,6 +27,8 @@ import edu.wpi.first.math.geometry.Translation3d;
  */
 public final class Constants {
   public static final class DriveConstants {
+    public static final double maxSpeed = 4;
+    public static final double maxAngularSpeed = 2;
     public static final int LEFT_LEADER_ID = 1;
     public static final int LEFT_FOLLOWER_ID = 2;
     public static final int RIGHT_LEADER_ID = 3;
@@ -40,7 +45,7 @@ public final class Constants {
     public static final double ROLLER_EJECT_VALUE = 0.44;
   }
 
-  public static final class OperatorConstants {
+    public static final class OperatorConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;
   }
@@ -58,8 +63,6 @@ public final class Constants {
     public static final double kA=0; // the acceleration
     public static final double kV=0; // the velocity applied
     public static final double kG=9.92; // the counter gravity
-    public static final float kForwardSoftLimit=0;
-    public static final float kReverseSoftLimit=180;
     public static final double kAbsPositionConversionFactor=360;
     public static final double kAbsVelocityConversionFactor=0;
     public static final double kRelativePositionConversionFactor=360;
@@ -69,10 +72,20 @@ public final class Constants {
     public static final double kP=0;
     public static final double kI=0;
     public static final double kD=0;
-    public static final double kTravelPosition=0;
+    public static final double startingPosition=0;
     public static final int kLimitSwitchId=0;
     public static final int kArmMotorLeftId=0;
     public static final double kTolerance=0;
+
+    public static final Angle kGroundPosition = Degree.of(0);
+    public static final Angle deployPosition= Degree.of(90);
+    public static final Angle climbPosition = Degree.of(210);
+
+ }
+ public static final class AlgaeConstants {
+    public static final int INTAKE_MOTOR_ID=6;
+    public static final int AlgaeGearRatio=100; //Find out the actual value later
+
     public static final double kGroundPosition=0;
   }
 
@@ -114,17 +127,17 @@ public final class Constants {
     public static final double kG=0.35; // the counter gravity. Find out the actual value later.
     public static final float kForwardSoftLimit=0;
     public static final float kReverseSoftLimit=180;
-    public static final double kAbsPositionConversionFactor=360;
-    public static final double kRelativePositionConversionFactor=360;
-    public static final int kMotorCurrentLimit=0;
-    public static final boolean kLeftMotorInverted=true;
+    // public static final double kAbsPositionConversionFactor=360;
+    // public static final double kRelativePositionConversionFactor=360;
+    // public static final int kMotorCurrentLimit=0;
+    // public static final boolean kLeftMotorInverted=true;
     public static final double kP=0;
     public static final double kI=0;
     public static final double kD=0;
-    public static final double kTravelPosition=0;
-    public static final int kLimitSwitchId=0;
-    public static final int kArmMotorLeftId=0;
-    public static final double kTolerance=0;
-    public static final double kGroundPosition=0;
+    // public static final double startingPosition=0;
+    // public static final int kLimitSwitchId=0;
+    // public static final int kArmMotorLeftId=0;
+    // public static final double kTolerance=0;
+    // public static final double kGroundPosition=0;
  }
 }
