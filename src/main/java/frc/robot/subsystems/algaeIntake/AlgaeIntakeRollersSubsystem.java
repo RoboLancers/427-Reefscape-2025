@@ -4,54 +4,60 @@
 
 package frc.robot.subsystems.algaeIntake;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
+
 import frc.robot.Constants.RollerConstants;
 import frc.robot.Constants.AlgaeConstants;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.wpilibj.DigitalInput;
-import com.revrobotics.spark.SparkLimitSwitch; 
-import edu.wpi.first.wpilibj.DigitalSource; 
 
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkLimitSwitch;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode; 
 
 /** Class to run the rollers over CAN */
 public class AlgaeIntakeRollersSubsystem extends SubsystemBase {
-  private final SparkMax IntakeMotor;
+  private final SparkMax pivotMotor;
+  //remove isRoller
   private boolean isRoller;
   private DigitalInput beambreak;
   SparkMaxConfig rollerConfig;
   boolean beambreakvalue;
   private SparkLimitSwitch LimitSwitchTop; 
-  private SparkLimitSwitch LimitSwitchBottom; 
+  private SparkLimitSwitch LimitSwitchBottom;
   private final SparkMax rollerMotor;
-  
+  private PIDController pidController = new PIDController(kP, kI, kD);
+  private SparkAbsoluteEncoder absEncoder; 
 
   public AlgaeIntakeRollersSubsystem() {
     // Set up the roller motor as a brushed motor
-    this.IntakeMotor = new SparkMax(AlgaeConstants.INTAKE_MOTOR_ID, MotorType.kBrushed);
-    this.IntakeMotor.setCANTimeout(250);
+    this.pivotMotor = new SparkMax(AlgaeConstants.PIVOT_MOTOR_ID, MotorType.kBrushed);
+    this.pivotMotor.setCANTimeout(250);
     this.rollerMotor = new SparkMax(RollerConstants.ROLLER_MOTOR_ID, MotorType.kBrushed);
     this.rollerMotor.setCANTimeout(250);
+
     if(isRoller==true){
       // Create and apply configuration for roller motor. Voltage compensation helps
-    // the roller behave the same as the battery
-    // voltage dips. The current limit helps prevent breaker trips or burning out
-    // the motor in the event the roller stalls.
-    this.rollerConfig = new SparkMaxConfig();
-    this.rollerConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
-    this.rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
-    this.rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    }
-    else{
+      // the roller behave the same as the battery
+      // voltage dips. The current limit helps prevent breaker trips or burning out
+      // the motor in the event the roller stalls.
       this.rollerConfig = new SparkMaxConfig();
       this.rollerConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
       this.rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
-      this.IntakeMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
+      this.rollerMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    } else {
+      this.rollerConfig = new SparkMaxConfig();
+      this.rollerConfig.voltageCompensation(RollerConstants.ROLLER_MOTOR_VOLTAGE_COMP);
+      this.rollerConfig.smartCurrentLimit(RollerConstants.ROLLER_MOTOR_CURRENT_LIMIT);
+      this.pivotMotor.configure(rollerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
+
     this.beambreak = new DigitalInput(3);
     this.beambreakvalue = false;
     //this.LimitSwitchTop = new SparkLimitSwitch();
@@ -59,9 +65,6 @@ public class AlgaeIntakeRollersSubsystem extends SubsystemBase {
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
-    
-
-    
   }
 
   @Override
@@ -72,10 +75,12 @@ public class AlgaeIntakeRollersSubsystem extends SubsystemBase {
     //The variable of weather the top limit switch was pressed or not.
     //this.LimitSwitchTopState=LimitSwitchTopisPressed();
     // If the top limit switch is pressed then it will stop the intakemotor.
-    if (LimitSwitchTopisPressed()==true){
-    IntakeMotor.set(0);
-    }
-     
+
+    //if (LimitSwitchTopState==true){
+    //IntakeMotor.set(0,0);
+    //}
+     }
+
     // If the bottom limit switch is pressed then it will stop the intake motor.
      //if (LimitSwitchBottomisPressed()==true){
     //  IntakeMotor.set(0,0);
@@ -98,7 +103,7 @@ public class AlgaeIntakeRollersSubsystem extends SubsystemBase {
   public boolean LimitSwitchBottomisPressed(){
     return this.LimitSwitchBottom.isPressed();
   }
-  //Gets the beam break value - tells if there's an algae in the intake.
+  // Gets the beam break value - tells if there's an algae in the intake.
   public boolean getBeamBreakValue(){
     return this.beambreak.get();
   }
@@ -118,6 +123,40 @@ public class AlgaeIntakeRollersSubsystem extends SubsystemBase {
   public int beambreakgetPortHandleForRouting(){
     return this.beambreak.getPortHandleForRouting();
   }
-  
+
+
+  ArmFeedforward feedForward = new ArmFeedforward(0, 0, kG);
+
+public Command intake(){
+  return run(() -> {
+    rollerMotor.setVoltage(kIntakeVoltage)
+  });
 }
-  
+
+public Command outtake(){
+  return run(()-> {
+    rollerMotor.setVoltage(kOuttakeVoltage)
+  });
+}
+
+  public Command goToAngle(double targetAngle) {
+    return run(() ->  {
+       double measurement = absEncoder.getPosition() //gets current angle
+       //targetAngle = the target angle you wanna go to
+       pivotMotor.setVoltage(pidController.calculate(measurement, targetAngle) + feedForward.calculate(targetAngle, 0));
+    });
+  }
+
+public Command tune() {
+  Smartdashboard.putNumber("/AlgaeIntakeRollers/kP", 0);
+  Smartdashboard.putNumber("/AlgaeIntakeRollers/kI", 0);
+  Smartdashboard.putNumber("/AlgaeIntakeRollers/kD", 0);
+  Smartdashboard.putNumber("/AlgaeIntakeRollers/kG", 0);
+  Smartdashboard.putNumber("AlgaeIntakeRollers/desiredAngle", 0);
+
+  return run(() -> { 
+    this.pidController.set(Smartdashboard.putNumber("/AlgaeIntakeRollers/kP", 0), Smartdashboard.putNumber("/AlgaeIntakeRollers/kI", 0), Smartdashboard.putNumber("/AlgaeIntakeRollers/kG", 0));
+    this.feedForward = new ArmFeedforward(0, Smartdashboard.putNumber("/AlgaeIntakeRollers/kG", 0), 0);
+    goToAngle(Smartdashboard.putNumber("AlgaeIntakeRollers/desiredAngle", 0));
+  });
+}
