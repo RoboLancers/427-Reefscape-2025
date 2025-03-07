@@ -26,7 +26,8 @@ public class AlgaeCommand extends Command {
     addRequirements(this.AlgaeSubsystem);
   }
 
-  @Override
+
+@Override
   public void initialize() {
   }
 

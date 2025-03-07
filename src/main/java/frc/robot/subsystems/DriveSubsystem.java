@@ -10,7 +10,10 @@ import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
+
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
 
@@ -33,15 +36,26 @@ import swervelib.SwerveModule;
 
 
 public class DriveSubsystem extends SubsystemBase{
-  SwerveDrive swerveDrive;
-  RobotConfig config;
-  Pose2d robotPose;
 
-  public DriveSubsystem() throws IOException{
-    File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
-    swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(DriveConstants.maxSpeed);
-    swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.maxAngularSpeed);
-    try{
+    SwerveDrive swerveDrive;
+    RobotConfig config;
+    Pose2d robotPose;
+
+    public DriveSubsystem() throws IOException{
+        File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
+        swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(DriveConstants.maxSpeed);
+        swerveDrive.setHeadingCorrection(false);
+        swerveDrive.setCosineCompensator(false);
+        swerveDrive.setModuleEncoderAutoSynchronize(false, 0);
+        swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.maxAngularSpeed);
+        try{
+            config = RobotConfig.fromGUISettings();
+          } catch (Exception e) {
+            // Handle exception as needed
+            e.printStackTrace();
+          }
+
+    try {
       config = RobotConfig.fromGUISettings();
     } catch (Exception e) {
       // Handle exception as needed
@@ -54,8 +68,8 @@ public class DriveSubsystem extends SubsystemBase{
       this::getRobotRelativeSpeeds,
       (speeds, feedforwards) -> driveRobotRelative(speeds),
       new PPHolonomicDriveController(
-        new PIDConstants(5.0, 0.0, 0.0),
-        new PIDConstants(5.0, 0.0, 0.0)
+        new PIDConstants(0.0, 0.0, 1.2),
+        new PIDConstants(0.01, 0.0, 0.1)
       ),
       config,
       () -> {
@@ -78,12 +92,13 @@ public class DriveSubsystem extends SubsystemBase{
       DriverStation.reportError("Big oops: " + e.getMessage(), e.getStackTrace());
       return Commands.none();
     }
-
-
     }
-    public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX)
-    {
-      return run(() -> {
+
+
+  public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX) {
+    return run(() -> {
+      System.out.println(translationX.getAsDouble()); 
+
         // Make the robot move
         swerveDrive.drive(new Translation2d(translationX.getAsDouble() * DriveConstants.maxSpeed,
                                             translationY.getAsDouble() * DriveConstants.maxSpeed),
@@ -151,9 +166,7 @@ public class DriveSubsystem extends SubsystemBase{
         //   robotPose = swerveDrive.getSimulationDriveTrainPose().get();
         //   SmartDashboard.put
         // } catch NoSuchElementException {
-
         // }
-        swerveDrive.updateOdometry();
-          
       }
+      
 }
