@@ -73,8 +73,7 @@ public class RobotContainer {
       public CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
       
        public VisionSubsystem visionSubsystem = new VisionSubsystem();
-      private SendableChooser<Command> autoChooser = new SendableChooser<>();
-
+      private SendableChooser<Command> autoChooser;
   
    //The container for the robot. Contains subsystems, OI devices, and commands.
    
@@ -85,7 +84,8 @@ public class RobotContainer {
     field = new Field2d();
     SmartDashboard.putData("Field", field);
     // Declares Coral Score as a roller command.
-    RollerCommandAuto Coral_Score =new RollerCommandAuto(()->0,() -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem);
+    Command Coral_Score =
+      new RollerCommandAuto(()->0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem).withTimeout(1);
      // Coral roller and wait command for auto
     NamedCommands.registerCommand("Coral_Score", Coral_Score);
     NamedCommands.registerCommand("Coral_Score_Bottom",Coral_Score);
@@ -98,6 +98,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("Wait_Coral_Top_2", new WaitCommand(1.0)); 
     NamedCommands.registerCommand("Wait_Coral_Bottom", new WaitCommand(1.0)); 
     NamedCommands.registerCommand("Wait_Coral_Bottom_2", new WaitCommand(1.0)); 
+
+
+    //autoChooser = new SendableChooser<>();
+    
+
     // Logging callback for current robot pose
       // PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
       //     // Do whatever you want with the pose here
@@ -170,12 +175,19 @@ public class RobotContainer {
       )
       );
       driverController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
+      operatorController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
+      
 
 
      driverController.a()
       .whileTrue(new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
       operatorController.a()
       .whileTrue(new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
+      driverController.b()
+      .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+      operatorController.b()
+      .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
+
      //  .whileTrue(rollerSubsystem.runRollerCommand(RollerConstants.ROLLER_EJECT_VALUE, 0));
     if(RobotBase.isSimulation()){
       driveSubsystem.resetPose(new Pose2d(2,2,new Rotation2d()));
@@ -209,7 +221,7 @@ public class RobotContainer {
         () -> 1.2*MathUtil.applyDeadband(driverController.getRightY(), 0.20)
         )
         );
-
+      
         boolean isCompetition = true;
 
     rollerSubsystem.setDefaultCommand(
@@ -248,6 +260,7 @@ public class RobotContainer {
     try{
       // Load the path you want to follow using its name in the GUI
     //PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+      
       return autoChooser.getSelected();
 
 
