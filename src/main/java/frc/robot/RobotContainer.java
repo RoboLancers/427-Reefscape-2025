@@ -75,7 +75,8 @@ public class RobotContainer {
     field = new Field2d();
     SmartDashboard.putData("Field", field);
     // Declares Coral Score as a roller command.
-    Command Coral_Score =(new RollerCommand(()->0,() -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem)).alongWith(Commands.print("CORAL SCORE"));
+    Command Coral_Score =
+      new RollerCommandAuto(()->0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem).withTimeout(1);
      // Coral roller and wait command for auto
     NamedCommands.registerCommand("Coral_Score", Coral_Score);
     NamedCommands.registerCommand("Coral_Score_Bottom",Coral_Score);
@@ -239,6 +240,7 @@ public class RobotContainer {
     try{
       // Load the path you want to follow using its name in the GUI
     //PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+      
       return autoChooser.getSelected();
 
 
