@@ -1,6 +1,7 @@
-// // Copyright (c) FIRST and other WPILib contributors.
-// // Open Source Software; you can modify and/or share it under the terms of
-// // the WPILib BSD license file in the root directory of this project.
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -20,12 +21,10 @@ public class RollerCommandAuto extends Command {
   private double timeToWait;
 
   public RollerCommandAuto (DoubleSupplier forward, DoubleSupplier reverse, CANRollerSubsystem CANRollerSubsystem) {
-
     this.forward = forward;
     this.reverse = reverse;
     this.rollerSubsystem = CANRollerSubsystem;
     
-
     addRequirements(this.rollerSubsystem);
   }
 
@@ -38,33 +37,31 @@ public class RollerCommandAuto extends Command {
 
   @Override
   public void initialize() {
-   waitTime = new Timer();
-   waitTime.start();
+    waitTime = new Timer();
+    waitTime.start();
   }
 
-//   // Runs every cycle while the command is scheduled (~50 times per second)
-   @Override
-public void execute() {
-//     // Run the roller motor at the desired speed
-     rollerSubsystem.runRoller(forward.getAsDouble(), reverse.getAsDouble());
-     
-     
-   }
+  // Runs every cycle while the command is scheduled (~50 times per second)
+  @Override
+  public void execute() {
+    // Run the roller motor at the desired speed
+    rollerSubsystem.runRoller(forward.getAsDouble(), reverse.getAsDouble());
+  }
 
   // Runs each time the command ends via isFinished or being interrupted.
-   @Override
-    public void end(boolean isInterrupted) {
-      if (waitTime.hasElapsed(timeToWait)) {
-        rollerSubsystem.runRollerCommand(0, 0);
-      }
-   }
+  @Override
+  public void end(boolean isInterrupted) {
+    if (waitTime.hasElapsed(timeToWait)) {
+      rollerSubsystem.runRollerCommand(0, 0);
+    }
+  }
 
-//   // Runs every cycle while the command is scheduled to check if the command is
-//   // finished
+  // Runs every cycle while the command is scheduled to check if the command is
+  // finished
   @Override
   public boolean isFinished() {
     // Return false to indicate that this command never ends. It can be interrupted
     // by another command needing the same subsystem.
     return waitTime.hasElapsed(1);
-}
   }
+}
