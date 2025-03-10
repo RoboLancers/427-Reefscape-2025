@@ -71,7 +71,7 @@ public class RobotContainer {
       public DriveSubsystem driveSubsystem;
 
       public CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
-      public CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
+      
        public VisionSubsystem visionSubsystem = new VisionSubsystem();
       private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
