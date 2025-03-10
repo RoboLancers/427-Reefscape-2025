@@ -1,4 +1,4 @@
-package frc.robot.subsystems.climb.arm;
+package frc.robot.subsystems.algaeRemover.removerArm;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,34 +20,34 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  
-public class Arm extends SubsystemBase {
+public class RemoverArm extends SubsystemBase {
     
-    private static Arm instance = new Arm(); 
+    private static RemoverArm instance = new RemoverArm(); 
 
-    public static Arm getInstance() {
+    public static RemoverArm getInstance() {
         return instance; 
     }
     
     // Define and initiate variables for arm
-    private double m_targetPosition = Constants.ClimbConstants.kTravelPosition;
+    private double m_targetPosition = Constants.AlgaeRemoverConstants.kTravelPosition;
     private double m_manualVelocity = 0;
 
-    private DigitalInput m_limitSwitch = new DigitalInput(Constants.ClimbConstants.kLimitSwitchId);
+    private DigitalInput m_limitSwitch = new DigitalInput(Constants.AlgaeRemoverConstants.kLimitSwitchId);
 
-    private SparkMax m_armMotorLeft = new SparkMax(Constants.ClimbConstants.kArmMotorLeftId, MotorType.kBrushless);
+    private SparkMax m_removerArmMotor = new SparkMax(Constants.AlgaeRemoverConstants.kRemoverArmMotorId, MotorType.kBrushless);
 
     // encoder from the right motor
-    private AbsoluteEncoder m_armAbsoluteEncoder = m_armMotorLeft.getAbsoluteEncoder();
-    private RelativeEncoder m_armRelativeEncoder = m_armMotorLeft.getEncoder();
+    private AbsoluteEncoder m_removerArmAbsoluteEncoder = m_removerArmMotor.getAbsoluteEncoder();
+    private RelativeEncoder m_removerArmRelativeEncoder = m_removerArmMotor.getEncoder();
     
-    private PIDController m_armPIDController = new PIDController(Constants.ClimbConstants.kP, Constants.ClimbConstants.kI, Constants.ClimbConstants.kD);
+    private PIDController m_removerArmPIDController = new PIDController(Constants.AlgaeRemoverConstants.kP, Constants.AlgaeRemoverConstants.kI, Constants.AlgaeRemoverConstants.kD);
     
-    public ArmFeedforward m_armFeedforward = new ArmFeedforward(Constants.ClimbConstants.kS, Constants.ClimbConstants.kG, Constants.ClimbConstants.kV, Constants.ClimbConstants.kA);
+    public ArmFeedforward m_removerArmFeedforward = new ArmFeedforward(Constants.AlgaeRemoverConstants.kS, Constants.AlgaeRemoverConstants.kG, Constants.AlgaeRemoverConstants.kV, Constants.AlgaeRemoverConstants.kA);
 
-    private ArmControlType m_ArmControlType = Arm.ArmControlType.PID;
+    private RemoverArmControlType m_removerRemoverArmControlType = RemoverArm.RemoverArmControlType.PID;
 
 
-    private Arm() {
+    private RemoverArm() {
         setupControllers();
         setupSpark();
     }
@@ -58,15 +58,15 @@ public class Arm extends SubsystemBase {
 ;
         config.idleMode(IdleMode.kBrake);
 
-        config.inverted(Constants.ClimbConstants.kLeftMotorInverted);
+        config.inverted(Constants.AlgaeRemoverConstants.kRemoverMotorInverted);
         
-        config.smartCurrentLimit(Constants.ClimbConstants.kMotorCurrentLimit);
+        config.smartCurrentLimit(Constants.AlgaeRemoverConstants.kMotorCurrentLimit);
         
         // right arm motor would follow left arm motor's voltage 
-        config.encoder.positionConversionFactor(Constants.ClimbConstants.kAbsPositionConversionFactor);
-        config.encoder.velocityConversionFactor(Constants.ClimbConstants.kAbsVelocityConversionFactor);
-        config.encoder.positionConversionFactor(Constants.ClimbConstants.kRelativePositionConversionFactor); 
-        config.encoder.velocityConversionFactor(Constants.ClimbConstants.kRelativeVelocityConversionFactor); 
+        config.encoder.positionConversionFactor(Constants.AlgaeRemoverConstants.kAbsPositionConversionFactor);
+        config.encoder.velocityConversionFactor(Constants.AlgaeRemoverConstants.kAbsVelocityConversionFactor);
+        config.encoder.positionConversionFactor(Constants.AlgaeRemoverConstants.kRelativePositionConversionFactor); 
+        config.encoder.velocityConversionFactor(Constants.AlgaeRemoverConstants.kRelativeVelocityConversionFactor); 
         
     }
 
@@ -76,7 +76,7 @@ public class Arm extends SubsystemBase {
     // pid controller config
     public void setupControllers() {
         // position error on which it is tolerable
-        m_armPIDController.setTolerance(Constants.ClimbConstants.kTolerance);
+        m_removerArmPIDController.setTolerance(Constants.AlgaeRemoverConstants.kTolerance);
     }
 
     public void periodic() {
@@ -84,14 +84,14 @@ public class Arm extends SubsystemBase {
         
         double impendingVelocity = 0; 
 
-        if (m_ArmControlType == ArmControlType.PID) {
+        if (m_removerRemoverArmControlType == RemoverArmControlType.PID) {
 
-            impendingVelocity = m_armPIDController.calculate(getAngle(), m_targetPosition) 
-                                + m_armFeedforward.calculate(Math.toRadians(getAngle()), 0);
+            impendingVelocity = m_removerArmPIDController.calculate(getAngle(), m_targetPosition) 
+                                + m_removerArmFeedforward.calculate(Math.toRadians(getAngle()), 0);
         }
         
         // velocity controlled manually
-        else if (m_ArmControlType == ArmControlType.MANUAL) {
+        else if (m_removerRemoverArmControlType == RemoverArmControlType.MANUAL) {
             impendingVelocity = m_manualVelocity;
         }
 
@@ -103,7 +103,7 @@ public class Arm extends SubsystemBase {
         boolean passForwardSoftLimit = forwardSoftLimit() && impendingVelocity > 0;
 
         // if (!passReverseSoftLimit && !passForwardSoftLimit) {
-            m_armMotorLeft.set(impendingVelocity); 
+            m_removerArmMotor.set(impendingVelocity); 
         // }
 
         SmartDashboard.putNumber("Impending Velocity (m/s)", impendingVelocity);
@@ -112,12 +112,12 @@ public class Arm extends SubsystemBase {
     }
 
     public boolean reverseSoftLimit() {
-        // return (getLimitSwitchValue() || getAngle() < Constants.ClimbConstants.kReverseSoftLimit);
-        return (getAngle() < Constants.ClimbConstants.kReverseSoftLimit);
+        // return (getLimitSwitchValue() || getAngle() < Constants.AlgaeRemoverConstants.kReverseSoftLimit);
+        return (getAngle() < Constants.AlgaeRemoverConstants.kReverseSoftLimit);
     }
 
     public boolean forwardSoftLimit() {
-        return getAngle() > Constants.ClimbConstants.kForwardSoftLimit;
+        return getAngle() > Constants.AlgaeRemoverConstants.kForwardSoftLimit;
     }
 
     public boolean getLimitSwitchValue() {
@@ -133,7 +133,7 @@ public class Arm extends SubsystemBase {
     // }
 
     public double getError() {
-        return m_armPIDController.getPositionError();
+        return m_removerArmPIDController.getPositionError();
     }
 
     public void goToAngle(double angle) {
@@ -141,7 +141,7 @@ public class Arm extends SubsystemBase {
     }
 
     public double getAngle() {
-        return Math.toDegrees(MathUtil.angleModulus(Math.toRadians(m_armAbsoluteEncoder.getPosition())));
+        return Math.toDegrees(MathUtil.angleModulus(Math.toRadians(m_removerArmAbsoluteEncoder.getPosition())));
     }
 
 
@@ -150,23 +150,23 @@ public class Arm extends SubsystemBase {
     }
 
     public boolean isAtAngle() {
-        return m_armPIDController.atSetpoint();
+        return m_removerArmPIDController.atSetpoint();
         
     }
 
-    public void setControlType(ArmControlType type) {
-        this.m_ArmControlType = type;
+    public void setControlType(RemoverArmControlType type) {
+        this.m_removerRemoverArmControlType = type;
     }
 
     public void setPID(double p, double i, double d) {
-        this.m_armPIDController.setPID(p, i, d);
+        this.m_removerArmPIDController.setPID(p, i, d);
     }
 
     public ArmControlState getArmControlState() {
-        if (m_targetPosition == Constants.ClimbConstants.kGroundPosition) {
+        if (m_targetPosition == Constants.AlgaeRemoverConstants.kGroundPosition) {
             return ArmControlState.GROUND;
         }
-        else if (m_targetPosition == Constants.ClimbConstants.kTravelPosition) {
+        else if (m_targetPosition == Constants.AlgaeRemoverConstants.kTravelPosition) {
             return ArmControlState.TRAVEL;
         }
         
@@ -175,7 +175,7 @@ public class Arm extends SubsystemBase {
         }
     }
 
-    public enum ArmControlType {
+    public enum RemoverArmControlType {
         MANUAL, 
         PID
     }
@@ -193,16 +193,16 @@ public class Arm extends SubsystemBase {
     public void doSendables() {
         SmartDashboard.putNumber("Arm Target Position (deg)", m_targetPosition);
         SmartDashboard.putNumber("Arm Position (deg)", getAngle()); 
-        SmartDashboard.putNumber("Arm Absolute Position (deg)", m_armAbsoluteEncoder.getPosition()); 
-        SmartDashboard.putNumber("Arm Velocity (deg/sec)", m_armAbsoluteEncoder.getVelocity());
+        SmartDashboard.putNumber("Arm Absolute Position (deg)", m_removerArmAbsoluteEncoder.getPosition()); 
+        SmartDashboard.putNumber("Arm Velocity (deg/sec)", m_removerArmAbsoluteEncoder.getVelocity());
         SmartDashboard.putNumber("Arm Error (deg)", getError());
         SmartDashboard.putBoolean("Arm At Set Point", isAtAngle());
-        SmartDashboard.putString("Arm Control Type", m_ArmControlType.toString());
+        SmartDashboard.putString("Arm Control Type", m_removerRemoverArmControlType.toString());
         SmartDashboard.putString("Arm Control State", getArmControlState().toString());
-        SmartDashboard.putNumber("left volt", m_armMotorLeft.get()); 
+        SmartDashboard.putNumber("left volt", m_removerArmMotor.get()); 
 
         SmartDashboard.putBoolean("Arm Limit Switch", getLimitSwitchValue());
-        // SmartDashboard.putBoolean("left inverted", m_armMotorLeft.getInverted()); 
+        // SmartDashboard.putBoolean("left inverted", m_removerArmMotor.getInverted()); 
         // SmartDashboard.putBoolean("right inverted", m_armMotorRight.getInverted()); 
     }
 }
