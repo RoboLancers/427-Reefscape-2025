@@ -29,7 +29,7 @@ public final class Constants {
     public static final int RIGHT_LEADER_ID = 3;
     public static final int RIGHT_FOLLOWER_ID = 4;
     public static final double maxSpeed = 8;
-    public static final double maxAngularSpeed = 10;
+    public static final double maxAngularSpeed = 11;
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
   }
 
@@ -37,7 +37,7 @@ public final class Constants {
     public static final int ROLLER_MOTOR_ID = 9;
     public static final int ROLLER_MOTOR_CURRENT_LIMIT = 40;
     public static final double ROLLER_MOTOR_VOLTAGE_COMP = 10;
-    public static final double ROLLER_EJECT_VALUE = 0.44;
+    public static final double ROLLER_EJECT_VALUE = 0.15;
   }
 
   public static final class OperatorConstants {
