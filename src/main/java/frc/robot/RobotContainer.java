@@ -143,7 +143,7 @@ public class RobotContainer {
       );
       driverController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
 
-     operatorController.a()
+     driverController.a()
       .whileTrue(new RollerCommand(() -> RollerConstants.ROLLER_EJECT_VALUE, () -> 0, rollerSubsystem));
 
     if(RobotBase.isSimulation()){
@@ -171,7 +171,7 @@ public class RobotContainer {
       driveSubsystem.driveCommand( 
         () ->-MathUtil.applyDeadband(driverController.getLeftY(), 0.05), 
         () ->-MathUtil.applyDeadband(driverController.getLeftX(), 0.05),
-        () ->-MathUtil.applyDeadband(driverController.getRightX(), 0.05)
+        () ->-2.0*MathUtil.applyDeadband(driverController.getRightX(), 0.05)
         )
         );
 
@@ -197,11 +197,11 @@ public class RobotContainer {
    // Use this to pass the autonomous command to the main {@link Robot} class.
    
    // @return the command to run in autonomous
-   
+   //@Override
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
+
     try{
-      // Load the path you want to follow using its name in the GUI
+  
     PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
       return autoChooser.getSelected();
 
