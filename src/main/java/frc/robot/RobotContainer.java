@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.OperatorConstants;
  import frc.robot.commands.AutoCommand;
 import frc.robot.commands.ClimbCommand;
@@ -178,8 +179,8 @@ public class RobotContainer {
       driverController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
       operatorController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
       
-
-
+    driverController.leftTrigger().whileTrue(Commands.runOnce(()->driveSubsystem.slowMode=true));
+    driverController.leftTrigger().whileFalse(Commands.runOnce(()->driveSubsystem.slowMode=false));
      driverController.a()
       .whileTrue(new RollerCommand(() -> 0, () -> RollerConstants.ROLLER_EJECT_VALUE, rollerSubsystem));
       operatorController.a()
@@ -198,10 +199,10 @@ public class RobotContainer {
 
     // befo
 
-    driverController.rightBumper().whileTrue(new ClimbCommand(()-> 0.3, () -> 0, climbSubsystem));
-    driverController.leftBumper().whileTrue(new ClimbCommand(()-> 0, () -> 0.3, climbSubsystem));
-    operatorController.rightBumper().whileTrue(new ClimbCommand(()-> 0.3, () -> 0, climbSubsystem));
-    operatorController.leftBumper().whileTrue(new ClimbCommand(()-> 0, () -> 0.3, climbSubsystem));
+    driverController.rightBumper().whileTrue(new ClimbCommand(()-> ClimbConstants.climbSpeed, () -> 0, climbSubsystem));
+    driverController.leftBumper().whileTrue(new ClimbCommand(()-> 0, () -> ClimbConstants.climbSpeed, climbSubsystem));
+    operatorController.rightBumper().whileTrue(new ClimbCommand(()-> ClimbConstants.climbSpeed, () -> 0, climbSubsystem));
+    operatorController.leftBumper().whileTrue(new ClimbCommand(()-> 0, () -> ClimbConstants.climbSpeed, climbSubsystem));
 
     //driverController.leftTrigger().whileTrue(new AlgaeCommand(() -> 0.44, () -> 0, algaeRollerSubsystem));
 
@@ -221,7 +222,7 @@ public class RobotContainer {
       driveSubsystem.driveCommand( 
         () -> 1.2*MathUtil.applyDeadband(driverController.getLeftY(), 0.20), 
         () -> 1.2*MathUtil.applyDeadband(driverController.getLeftX(), 0.20),
-        () -> 2.0*MathUtil.applyDeadband(driverController.getRightX(), 0.20)
+        () -> -1.4*MathUtil.applyDeadband(driverController.getRightX(), 0.25)
         )
         );
       
@@ -235,14 +236,17 @@ public class RobotContainer {
       );
 
 
-      autoChooser = AutoBuilder.buildAutoChooser("Center Auto");
+      //autoChooser = AutoBuilder.buildAutoChooser("Center Auto");
+      //autoChooser = AutoBuilder.buildAutoChooser("Bottom Auto");
  
-    driverController.a().onTrue(Commands.runOnce(() -> driveSubsystem.resetOdometry()));
+    driverController.x().onTrue(Commands.runOnce(() -> driveSubsystem.resetOdometry()));
 
+
+    
 
       autoChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
       (stream) -> isCompetition
-        ? stream.filter(auto -> auto.getName().startsWith("comp"))
+        ? stream.filter(auto -> auto.getName().endsWith("Auto"))
         : stream
     );
     // algaeRollerSubsystem.setDefaultCommand( new AlgaeCommand(

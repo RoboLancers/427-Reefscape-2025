@@ -39,6 +39,8 @@ public class DriveSubsystem extends SubsystemBase{
     SwerveDrive swerveDrive;
     RobotConfig config;
 
+    public boolean slowMode;
+
     StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
   .getStructTopic("MyPose", Pose2d.struct).publish();
 
@@ -49,6 +51,8 @@ public class DriveSubsystem extends SubsystemBase{
         swerveDrive.setCosineCompensator(false);
         swerveDrive.setModuleEncoderAutoSynchronize(false, 0);
         swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.maxAngularSpeed);
+        this.slowMode=false;
+        
         try{
             config = RobotConfig.fromGUISettings();
           } catch (Exception e) {
@@ -104,15 +108,27 @@ public class DriveSubsystem extends SubsystemBase{
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX) {
     return run(() -> {
       System.out.println(translationX.getAsDouble()); 
-
+        if (slowMode==true) {
+          System.out.println("slow mode enabled");
+          // Make the robot move
+       // swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.slowAngularSpeed);
+          swerveDrive.drive(new Translation2d(translationX.getAsDouble() * DriveConstants.slowSpeed,
+                                            translationY.getAsDouble() * DriveConstants.slowSpeed),
+                          angularRotationX.getAsDouble() * DriveConstants.slowAngularSpeed,
+                          true,
+                          false);
+        }
+        else {
         // Make the robot move
+        System.out.println("slow mode disabled");
         swerveDrive.drive(new Translation2d(translationX.getAsDouble() * DriveConstants.maxSpeed,
                                             translationY.getAsDouble() * DriveConstants.maxSpeed),
                           angularRotationX.getAsDouble() * swerveDrive.getMaximumChassisAngularVelocity(),
                           true,
                           false);
-      });
-    }
+        };
+    });
+  }
 
     public Command tune(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX){
         SmartDashboard.putNumber("SwerveModuleVelocitykP", 0);

@@ -31,8 +31,10 @@ public final class Constants {
     public static final int LEFT_FOLLOWER_ID = 2;
     public static final int RIGHT_LEADER_ID = 3;
     public static final int RIGHT_FOLLOWER_ID = 4;
-    public static final double maxSpeed = 8;
+    public static final double maxSpeed = 5;
     public static final double maxAngularSpeed = 11;
+    public static final double slowSpeed = maxSpeed/2;
+    public static final double slowAngularSpeed = maxSpeed/2;
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
   }
 
@@ -40,14 +42,14 @@ public final class Constants {
     public static final int ROLLER_MOTOR_ID = 9;
     public static final int ROLLER_MOTOR_CURRENT_LIMIT = 40;
     public static final double ROLLER_MOTOR_VOLTAGE_COMP = 10;
-    public static final double ROLLER_EJECT_VALUE = 0.44;
+    public static final double ROLLER_EJECT_VALUE = 0.25;
   }
 
     public static final class OperatorConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;
   }
-
+ 
   public static final class VisionConstants {
    public static final AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
   public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0));
@@ -55,7 +57,8 @@ public final class Constants {
 
  public static final class ClimbConstants {
     public static final int CLIMB_MOTOR_ID=10;
-    public static final int ClimbGearRatio=100;
+    public static final int ClimbGearRatio=225;
+    public static final double climbSpeed=0.5;
     public static final int EncoderConstant=42; 
     public static final double kS=0; // the 
     public static final double kA=0; // the acceleration

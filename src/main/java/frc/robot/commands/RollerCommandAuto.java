@@ -51,9 +51,9 @@ public class RollerCommandAuto extends Command {
   // Runs each time the command ends via isFinished or being interrupted.
   @Override
   public void end(boolean isInterrupted) {
-    if (waitTime.hasElapsed(timeToWait)) {
+    //if (waitTime.hasElapsed(timeToWait)) {
       rollerSubsystem.runRollerCommand(0, 0);
-    }
+    //}
   }
 
   // Runs every cycle while the command is scheduled to check if the command is
