@@ -198,8 +198,10 @@ public class RobotContainer {
 
     // befo
 
-    driverController.rightBumper().whileTrue(new ClimbCommand(()-> 0.5, () -> 0, climbSubsystem));
-    driverController.leftBumper().whileTrue(new ClimbCommand(()-> 0, () -> 0.5, climbSubsystem));
+    driverController.rightBumper().whileTrue(new ClimbCommand(()-> 0.3, () -> 0, climbSubsystem));
+    driverController.leftBumper().whileTrue(new ClimbCommand(()-> 0, () -> 0.3, climbSubsystem));
+    operatorController.rightBumper().whileTrue(new ClimbCommand(()-> 0.3, () -> 0, climbSubsystem));
+    operatorController.leftBumper().whileTrue(new ClimbCommand(()-> 0, () -> 0.3, climbSubsystem));
 
     //driverController.leftTrigger().whileTrue(new AlgaeCommand(() -> 0.44, () -> 0, algaeRollerSubsystem));
 
@@ -219,7 +221,7 @@ public class RobotContainer {
       driveSubsystem.driveCommand( 
         () -> 1.2*MathUtil.applyDeadband(driverController.getLeftY(), 0.20), 
         () -> 1.2*MathUtil.applyDeadband(driverController.getLeftX(), 0.20),
-        () -> 1.2*MathUtil.applyDeadband(driverController.getRightY(), 0.20)
+        () -> 2.0*MathUtil.applyDeadband(driverController.getRightX(), 0.20)
         )
         );
       
