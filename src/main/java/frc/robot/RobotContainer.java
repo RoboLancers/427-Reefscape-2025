@@ -176,7 +176,9 @@ public class RobotContainer {
     //   () -> driverController.getRightX()
     //   )
     //   );
+    //resets driver pose.
       driverController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
+      
       operatorController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
       
     driverController.leftTrigger().whileTrue(Commands.runOnce(()->driveSubsystem.slowMode=true));
