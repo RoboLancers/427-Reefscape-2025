@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
  import frc.robot.commands.AutoCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.GoToClimb;
 // import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.Intake.CANRollerSubsystem;
@@ -168,12 +169,12 @@ public class RobotContainer {
   private void configureBindings() {
 
 
-    driverController.b().whileTrue(driveSubsystem.tune(
-      () -> driverController.getLeftX(), 
-      () -> driverController.getLeftY(),
-      () -> driverController.getRightX()
-      )
-      );
+    // driverController.b().whileTrue(driveSubsystem.tune(
+    //   () -> driverController.getLeftX(), 
+    //   () -> driverController.getLeftY(),
+    //   () -> driverController.getRightX()
+    //   )
+    //   );
       driverController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
       operatorController.x().onTrue(Commands.runOnce(()->driveSubsystem.resetPose(new Pose2d())));
       
@@ -197,8 +198,8 @@ public class RobotContainer {
 
     // befo
 
-    driverController.b().toggleOnTrue(new GoToInitial(climbSubsystem));
-    driverController.y().toggleOnTrue(new GoToClimb(climbSubsystem));
+    driverController.rightBumper().whileTrue(new ClimbCommand(()-> 0.5, () -> 0, climbSubsystem));
+    driverController.leftBumper().whileTrue(new ClimbCommand(()-> 0, () -> 0.5, climbSubsystem));
 
     //driverController.leftTrigger().whileTrue(new AlgaeCommand(() -> 0.44, () -> 0, algaeRollerSubsystem));
 

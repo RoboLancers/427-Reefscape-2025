@@ -7,7 +7,7 @@ package frc.robot.subsystems.climb;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
-
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants;
 import frc.robot.Constants.AlgaeConstants;
@@ -33,10 +33,10 @@ import edu.wpi.first.units.measure.Distance;
 
 public class ClimbSubsystem extends SubsystemBase {
   //Create here :)
-  private DigitalInput climbBeamBreak;
-  private boolean climbBeamBreakValue;
+  // private DigitalInput climbBeamBreak;
+  // private boolean climbBeamBreakValue;
   private double targetPosition = 0;
-  private SparkMax climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushed);
+  private SparkMax climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_ID, MotorType.kBrushless);
   private PIDController climbPIDController = new PIDController(Constants.ClimbConstants.kP, Constants.ClimbConstants.kI, Constants.ClimbConstants.kD);
   private SparkAbsoluteEncoder encoder = climbMotor.getAbsoluteEncoder();
   private ArmFeedforward feedforward = new ArmFeedforward(Constants.ClimbConstants.kS, Constants.ClimbConstants.kG, Constants.ClimbConstants.kV);
@@ -57,8 +57,8 @@ public class ClimbSubsystem extends SubsystemBase {
     
     config.smartCurrentLimit(Constants.ClimbConstants.kMotorCurrentLimit);
     
-    config.encoder.positionConversionFactor(Constants.ClimbConstants.kAbsPositionConversionFactor);
-    config.encoder.velocityConversionFactor(Constants.ClimbConstants.kAbsVelocityConversionFactor);
+    //config.encoder.positionConversionFactor(Constants.ClimbConstants.kAbsPositionConversionFactor);
+    //config.encoder.velocityConversionFactor(Constants.ClimbConstants.kAbsVelocityConversionFactor);
     config.encoder.positionConversionFactor(Constants.ClimbConstants.kRelativePositionConversionFactor); 
     config.encoder.velocityConversionFactor(Constants.ClimbConstants.kRelativeVelocityConversionFactor); 
 
@@ -72,9 +72,15 @@ public class ClimbSubsystem extends SubsystemBase {
   public void periodic() {
     // Gets the desired speed to get to the target position from the current position. 
     // Feedforward is making sure the arm doesn't fall or move too far back.
-   double velocity = climbPIDController.calculate(getAngle(), targetPosition) + feedforward.calculate(targetPosition, 0);
-   climbMotor.set(velocity);
- 
+  //  double velocity = climbPIDController.calculate(getAngle(), targetPosition) + feedforward.calculate(targetPosition, 0);
+  //  climbMotor.set(velocity);
+    
+    // if (isAtAngle()==true){
+    //   climbMotor.set(0);
+    // }
+    // else
+    //   {double velocity = climbPIDController.calculate(getAngle(), targetPosition) + feedforward.calculate(targetPosition, 0);
+    //   climbMotor.set(velocity);}
 
   }
   // Goes to the starting position.
@@ -95,11 +101,15 @@ public void goToAngle(Angle angle){
   this.targetPosition = angle.in(Degrees);
 }
  // Gets the value of the beambreak
-  public boolean getclimbBeambreakvalue() {
-    return climbBeamBreak.get();
-  } 
+  // public boolean getclimbBeambreakvalue() {
+  //   return climbBeamBreak.get();
+  // } 
   // Gets the current position.
   public double getAngle() {
-    return encoder.getPosition();
+    //return encoder.getPosition();
+    return Units.rotationsToDegrees(climbMotor.getEncoder().getPosition());
+  }
+  public void runClimb(double forward, double reverse) {
+    climbMotor.set(forward - reverse);
   }
 }
