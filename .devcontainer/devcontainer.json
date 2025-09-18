@@ -2,7 +2,7 @@
 
 
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-    "postCreateCommand": "./postcreate.sh",
+    "postCreateCommand": "chmod +x /.devcontainer/postcreate.sh && ./.devcontainer/postcreate.sh",
     "features": {
        "ghcr.io/devcontainers/features/java:1": {
           "version": "17",
@@ -21,7 +21,6 @@
             "DISPLAY": ":0"
         },
   "runArgs": ["--shm-size=1g",
-    "--net", "host",
     "-e", "DISPLAY=:0",
     "-e", "XAUTHORITY=/tmp/.Xauthority",
     "-v", "${localEnv:HOME}/.Xauthority:/tmp/.Xauthority"
@@ -29,7 +28,7 @@
   "forwardPorts": [6080, 5901],
       "customizations": {
         "vscode": {
-          "extensions": ["/home/vscode/vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
+          "extensions": ["vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
         }
       }
   }
