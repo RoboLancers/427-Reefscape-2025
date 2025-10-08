@@ -24,9 +24,12 @@ import edu.wpi.first.wpilibj.RobotBase;
 import swervelib.parser.SwerveParser;
 import swervelib.SwerveDrive;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.PIDFConfig;
 import swervelib.SwerveModule;
@@ -35,7 +38,11 @@ import swervelib.SwerveModule;
 public class DriveSubsystem extends SubsystemBase{
     SwerveDrive swerveDrive;
     RobotConfig config;
-    Pose2d robotPose;
+
+    public boolean slowMode;
+
+    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
+  .getStructTopic("MyPose", Pose2d.struct).publish();
 
     public DriveSubsystem() throws IOException{
         File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
@@ -44,6 +51,8 @@ public class DriveSubsystem extends SubsystemBase{
         swerveDrive.setCosineCompensator(false);
         swerveDrive.setModuleEncoderAutoSynchronize(false, 0);
         swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.maxAngularSpeed);
+        this.slowMode=false;
+        
         try{
             config = RobotConfig.fromGUISettings();
           } catch (Exception e) {
@@ -64,8 +73,8 @@ public class DriveSubsystem extends SubsystemBase{
       this::getRobotRelativeSpeeds,
       (speeds, feedforwards) -> driveRobotRelative(speeds),
       new PPHolonomicDriveController(
-        new PIDConstants(0.0, 0.0, 1.2),
-        new PIDConstants(0.01, 0.0, 0.1)
+        new PIDConstants(5, 0.0, 0), //0, 0, 1.2
+        new PIDConstants(5, 0.0, 0.0) //0.01, 0, 0.1
       ),
       config,
       () -> {
@@ -78,6 +87,10 @@ public class DriveSubsystem extends SubsystemBase{
       this
     );
 
+  }
+
+  public void resetOdometry(){
+    swerveDrive.resetOdometry(new Pose2d());
   }
                
   public Command followPathCommand(String pathName) {
@@ -95,15 +108,27 @@ public class DriveSubsystem extends SubsystemBase{
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX) {
     return run(() -> {
       System.out.println(translationX.getAsDouble()); 
-
+        if (slowMode==true) {
+          System.out.println("slow mode enabled");
+          // Make the robot move
+       // swerveDrive.swerveController.setMaximumChassisAngularVelocity(DriveConstants.slowAngularSpeed);
+          swerveDrive.drive(new Translation2d(translationX.getAsDouble() * DriveConstants.slowSpeed,
+                                            translationY.getAsDouble() * DriveConstants.slowSpeed),
+                          angularRotationX.getAsDouble() * DriveConstants.slowAngularSpeed,
+                          true,
+                          false);
+        }
+        else {
         // Make the robot move
+        System.out.println("slow mode disabled");
         swerveDrive.drive(new Translation2d(translationX.getAsDouble() * DriveConstants.maxSpeed,
                                             translationY.getAsDouble() * DriveConstants.maxSpeed),
                           angularRotationX.getAsDouble() * swerveDrive.getMaximumChassisAngularVelocity(),
                           true,
                           false);
-      });
-    }
+        };
+    });
+  }
 
     public Command tune(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX){
         SmartDashboard.putNumber("SwerveModuleVelocitykP", 0);
@@ -159,11 +184,6 @@ public class DriveSubsystem extends SubsystemBase{
 
       @Override
       public void periodic() {
-        // try{
-        //   robotPose = swerveDrive.getSimulationDriveTrainPose().get();
-        //   SmartDashboard.put
-        // } catch NoSuchElementException {
-        // }
+        publisher.accept(getPose());
       }
-      
 }
