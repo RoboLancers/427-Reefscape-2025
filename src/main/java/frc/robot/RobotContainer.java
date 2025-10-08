@@ -146,7 +146,7 @@ public class RobotContainer {
     // rollers.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)));
 
     configureBindings();
-
+    
     //algaeRollerSubsystem.setDefaultCommand(rollers.setMechanismVoltage(Volts.of(0)))
     // Set up command bindings
     //configureBindings();
@@ -199,7 +199,7 @@ public class RobotContainer {
     // Set the A button to run the "RollerCommand" command with a fixed
     // value ejecting the gamepiece while the button is held
 
-    // befo
+    // before your mom
 
     driverController.rightBumper().whileTrue(new ClimbCommand(()-> ClimbConstants.climbSpeed, () -> 0, climbSubsystem));
     driverController.leftBumper().whileTrue(new ClimbCommand(()-> 0, () -> ClimbConstants.climbSpeed, climbSubsystem));
