@@ -24,11 +24,12 @@
     "-e", "DISPLAY=:0",
     "-e", "XAUTHORITY=/tmp/.Xauthority",
     "-v", "${localEnv:HOME}/.Xauthority:/tmp/.Xauthority"
+    
 ],
   "forwardPorts": [6080, 5901],
       "customizations": {
         "vscode": {
-          "extensions": ["vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
+          "extensions": ["/home/vscode/vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
         }
       }
   }
