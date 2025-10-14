@@ -2,25 +2,34 @@
 
 
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-      "postCreateCommand": "cd /home/vscode && wget 'https://github.com/wpilibsuite/vscode-wpilib/releases/download/v2025.2.1/vscode-wpilib-2025.2.1.vsix'",
-     "features": {
+    //"postCreateCommand": "chmod +x /.devcontainer/postcreate.sh && ./.devcontainer/postcreate.sh",
+    "features": {
        "ghcr.io/devcontainers/features/java:1": {
           "version": "17",
           "installGradle": "true",
           "installMaven": "true"
        },
-         "desktop-lite": {
+    "desktop-lite": {
 			"password": "vscode",
 			"webPort": "6080",
-			"vncPort": "5901"
+			"vncPort": "5901",
+      
 		}
 
     },
-  "runArgs": ["--shm-size=1g"],
+    "remoteEnv": {
+            "DISPLAY": ":0"
+        },
+  "runArgs": ["--shm-size=1g",
+    "-e", "DISPLAY=:0",
+    "-e", "XAUTHORITY=/tmp/.Xauthority",
+    "-v", "${localEnv:HOME}/.Xauthority:/tmp/.Xauthority"
+    
+],
   "forwardPorts": [6080, 5901],
       "customizations": {
         "vscode": {
-          "extensions": ["/home/vscode/vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
+          "extensions": ["${containerWorkspaceFolder}/.devcontainer/vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
         }
       }
   }
