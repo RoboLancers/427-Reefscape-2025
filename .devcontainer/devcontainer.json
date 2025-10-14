@@ -2,14 +2,14 @@
 
 
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-    "postCreateCommand": "chmod +x /.devcontainer/postcreate.sh && ./.devcontainer/postcreate.sh",
+    //"postCreateCommand": "chmod +x /.devcontainer/postcreate.sh && ./.devcontainer/postcreate.sh",
     "features": {
        "ghcr.io/devcontainers/features/java:1": {
           "version": "17",
           "installGradle": "true",
           "installMaven": "true"
        },
-    "ghcr.io/devcontainers/features/desktop-lite:1": {
+    "desktop-lite": {
 			"password": "vscode",
 			"webPort": "6080",
 			"vncPort": "5901",
@@ -29,11 +29,7 @@
   "forwardPorts": [6080, 5901],
       "customizations": {
         "vscode": {
-          "extensions": [
-            "${containerWorkspaceFolder}/.devcontainer/vscode-wpilib-2025.2.1.vsix",
-            "vscjava.vscode-java-pack",
-            "vscjava.vscode-gradle"
-        ]
+          "extensions": ["${containerWorkspaceFolder}/.devcontainer/vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
         }
       }
   }
