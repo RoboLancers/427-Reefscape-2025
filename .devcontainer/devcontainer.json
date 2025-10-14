@@ -29,7 +29,11 @@
   "forwardPorts": [6080, 5901],
       "customizations": {
         "vscode": {
-          "extensions": ["/home/vscode/vscode-wpilib-2025.2.1.vsix","vscjava.vscode-java-pack","vscjava.vscode-gradle"]
+          "extensions": [
+            "${containerWorkspaceFolder}/.devcontainer/vscode-wpilib-2025.2.1.vsix",
+            "vscjava.vscode-java-pack",
+            "vscjava.vscode-gradle"
+        ]
         }
       }
   }
